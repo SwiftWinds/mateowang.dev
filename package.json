@@ -1,7 +1,7 @@
 {
   "name": "mateowang.dev",
   "description": "a personal website where I post my projects, blog post, video tutorials, reading material, or whatever else I find myself doing",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/SwiftWinds/mateowang.dev.git"
