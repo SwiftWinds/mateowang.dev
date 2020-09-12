@@ -1,0 +1,25 @@
+{
+  "grammarly.overrides": [
+    {
+      "files": [
+        "**/src/routes/blog/posts/markdown-test.md"
+      ],
+      "config": {
+        "audience": "knowledgeable",
+        "dialect": "american",
+        "domain": "general",
+        "emotions": [
+          "confident",
+          "optimistic",
+          "respectful",
+          "friendly",
+          "analytical"
+        ],
+        "goals": [
+          "inform"
+        ],
+        "emotion": "mild"
+      }
+    }
+  ]
+}
