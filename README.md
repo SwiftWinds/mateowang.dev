@@ -2,7 +2,7 @@
 
 ## For now, feel free to contact me at:
 
-### Email: [mateowang.dev@gmail.com](mailto:mateowang.dev@gmail.com)
+### Email: [contact@mateowang.dev](mailto:contact@mateowang.dev)
 
 ### GitHub: [@SwiftWinds](https://github.com/SwiftWinds)
 
