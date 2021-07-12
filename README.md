@@ -6,7 +6,7 @@
 
 ### GitHub: [@SwiftWinds](https://github.com/SwiftWinds)
 
-### Discord: [Freedom#0560](https://discord.com/channels/@me/150145140806254592)
+### Discord: [Freedom#2827](https://discord.com/channels/@me/150145140806254592)
 
 ### Reddit: [u/matetoes](https://reddit.com/user/matetoes)
 
