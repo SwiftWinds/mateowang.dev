@@ -1,13 +1,40 @@
-# 🚧 Under Construction 🚧
+# Welcome to [Astro](https://astro.build)
 
-## For now, feel free to contact me at:
+> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
 
-### Email: [contact@mateowang.dev](mailto:contact@mateowang.dev)
+## 🚀 Project Structure
 
-### GitHub: [@SwiftWinds](https://github.com/SwiftWinds)
+Inside of your Astro project, you'll see the following folders and files:
 
-### Discord: [Freedom#2827](https://discord.com/channels/@me/150145140806254592)
+```
+/
+├── public/
+│   ├── robots.txt
+│   └── favicon.ico
+├── src/
+│   ├── components/
+│   │   └── Tour.astro
+│   └── pages/
+│       └── index.astro
+└── package.json
+```
 
-### Reddit: [u/matetoes](https://reddit.com/user/matetoes)
+Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
 
-### Messenger: [@mathew.wang.969](https://m.me/mathew.wang.969)
+There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+
+Any static assets, like images, can be placed in the `public/` directory.
+
+## 🧞 Commands
+
+All commands are run from the root of the project, from a terminal:
+
+| Command         | Action                                      |
+|:----------------|:--------------------------------------------|
+| `npm install`   | Installs dependencies                       |
+| `npm run dev`   | Starts local dev server at `localhost:3000` |
+| `npm run build` | Build your production site to `./dist/`     |
+
+## 👀 Want to learn more?
+
+Feel free to check [our documentation](https://github.com/snowpackjs/astro) or jump into our [Discord server](https://astro.build/chat).

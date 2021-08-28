@@ -1,7 +1,0 @@
-{
-  "deno.enable": false,
-  "files.associations": {
-    "*.plist": "xml",
-    "ostream": "cpp"
-  }
-}
