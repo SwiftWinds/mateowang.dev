@@ -15,9 +15,12 @@
     "@astrojs/svelte": "^0.1.2",
     "@astrojs/tailwind": "^0.2.1",
     "@astrojs/turbolinks": "^0.1.1",
+    "@babel/core": "^7.17.10",
     "astro": "^1.0.0-beta.20",
+    "prettier-plugin-astro": "^0.0.12",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
-    "svelte": "^3.48.0"
+    "svelte": "^3.48.0",
+    "vite": "^2.9.7"
   }
 }
