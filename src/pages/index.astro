@@ -1,5 +1,6 @@
 ---
 import Header from "../components/Header.astro";
+import AboutMe from "../components/AboutMe.astro";
 ---
 
 <html lang="en">
@@ -9,38 +10,22 @@ import Header from "../components/Header.astro";
     <title>Mateo Wang</title>
   </head>
   <body>
-    <h1>Mateo Wang</h1>
-    <h2>Software developer and data scientist</h2>
-    <a href="./resume.pdf" download="resume.pdf">Resume</a>
-    <a href="mailto:hey@mateowang.dev">Email</a>
-    <a
-      href="https://https://github.com/SwiftWinds"
-      target="_blank"
-      rel="noopener noreferrer">GitHub</a
-    >
-    <a
-      href="https://www.linkedin.com/in/mateo-wang"
-      target="_blank"
-      rel="noopener noreferrer">LinkedIn</a
-    >
-    <a
-      href="https://devpost.com/SwiftWinds"
-      target="_blank"
-      rel="noopener noreferrer">Devpost</a
-    >
-    <p>
-      I'm a <b>Web Developer</b> and <b>Computer Vision researcher</b> at UC Santa
-      Barbara with <b>5 years of software experience</b> and
-      <b>8 hackathon wins</b>.
-    </p>
-    <p>
-      I lead the project groups in UCSB's Data Science Club and the web
-      development team for SBHacks, UCSB's annual hackathon, while building
-      small web apps or chrome extensions to scratch my own itch.
-    </p>
-    <p>
-      In my spare time, I also enjoy playing piano covers of my favorite anime
-      songs and going on runs on the beautiful Santa Barbara beaches!
-    </p>
+    <Header />
+    <main>
+      <AboutMe />
+      <section>
+        <h2>Experience</h2>
+        <h3>Invoca</h3>
+
+        <h3>Tascent - Data Science Intern</h3>
+        <h3>VOFO - Data Center Technician</h3>
+        <h3>NutriKarma.Fit - Software developer</h3>
+        <h3>Electify - Full-stack web developer</h3>
+        <h3>Denali - Software engineer intern</h3>
+      </section>
+      <section>
+        <h2>Projects</h2>
+      </section>
+    </main>
   </body>
 </html>
