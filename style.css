@@ -1,0 +1,319 @@
+:root {
+    /* ... (keep your existing variables) ... */
+    --dracula-bg: #282a36;
+    --dracula-current-line: #44475a;
+    --dracula-foreground: #f8f8f2;
+    --dracula-comment: #6272a4;
+    --dracula-cyan: #8be9fd;
+    --dracula-green: #50fa7b;
+    --dracula-orange: #ffb86c;
+    --dracula-pink: #ff79c6;
+    --dracula-purple: #bd93f9;
+    --dracula-red: #ff5555;
+    --dracula-yellow: #f1fa8c;
+
+    --atom-bg: #21222c;
+    --glass-bg-color: rgba(40, 42, 54, 0.65);
+    --glass-border-color: rgba(189, 147, 249, 0.2);
+    --glass-shadow-color: rgba(20, 20, 30, 0.3);
+    --text-color: var(--dracula-foreground);
+    --icon-color: var(--dracula-comment);
+    --icon-hover-color: var(--dracula-cyan);
+
+    /* New variables for Edge Lighting with Mask */
+    --edge-highlight-active-color: #FFFFFF;
+    /* Changed to white for stronger effect */
+    --edge-mask-x: 50%;
+    /* Default X position for the mask center */
+    --edge-mask-y: 50%;
+    /* Default Y position for the mask center */
+    --edge-mask-opacity: 0;
+    /* Overall visibility of the masked highlight */
+    --edge-mask-size: 120px;
+    /* Radius of the radial gradient mask, adjust for desired spread */
+    --edge-glow-blur: 8px;
+    --edge-glow-spread: 2px;
+
+    --glass-card-main-radius: 20px;
+    /* Your card's border radius */
+    --glass-border-glow-thickness: 3px;
+    /* How thick the glowing border will appear */
+    /* More opaque background for the actual card content area */
+    --glass-bg-color-inner: rgba(40, 42, 54, 0.9);
+    /* Dracula Background, more opaque */
+
+    /* Keep if you still want the on-surface hover light, or remove if border glow is enough */
+    --radial-light-color: rgba(200, 220, 255, 0.08);
+    /* Surface light, make it subtle if kept */
+}
+
+body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+        Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    background-color: var(--atom-bg);
+    color: var(--text-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    overflow: hidden;
+    /* Prevents scrollbars from star animations */
+    position: relative;
+}
+
+#star-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    /* Allows clicks to pass through */
+    z-index: 0;
+    /* Furthest back */
+}
+
+.star {
+    position: absolute;
+    background-color: var(--dracula-foreground);
+    border-radius: 50%;
+    animation: twinkle 2s infinite alternate ease-in-out;
+}
+
+.shooting-star {
+    position: absolute;
+    height: 2px;
+    /* Thickness of the star's tail */
+    background: linear-gradient(to right, var(--dracula-cyan), transparent);
+    border-radius: 1px;
+    /* Rounded tail */
+    filter: drop-shadow(0 0 6px var(--dracula-cyan));
+    animation: shoot linear;
+    /* Duration and other props set by JS */
+    opacity: 0;
+    /* Start invisible until animation begins */
+}
+
+@keyframes twinkle {
+    0% {
+        opacity: 0.3;
+        transform: scale(0.8);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1.1);
+    }
+}
+
+/* Keyframes for shooting star will be controlled by JS for start/end points */
+/* A basic opacity/transform structure */
+@keyframes shoot {
+    0% {
+        opacity: 1;
+        transform: translateX(var(--start-x)) translateY(var(--start-y)) scaleX(0.1);
+    }
+
+    10% {
+        transform: translateX(calc(var(--start-x) + var(--travel-x) * 0.1)) translateY(calc(var(--start-y) + var(--travel-y) * 0.1)) scaleX(1);
+    }
+
+    90% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateX(calc(var(--start-x) + var(--travel-x))) translateY(calc(var(--start-y) + var(--travel-y))) scaleX(1.5);
+    }
+}
+
+
+.glass-container-wrapper {
+    perspective: 1000px;
+    position: relative;
+    /* Needed for z-indexing context */
+    z-index: 2;
+    /* Above #mouse-glow-border-light and stars */
+}
+
+.glass-container {
+    position: relative;
+    width: clamp(320px, 80vw, 480px);
+    /* Padding is for .glass-content relative to the "border" channel */
+    padding: var(--glass-border-glow-thickness);
+
+    /* This border IS the channel. Light from #mouse-glow-border-light shines through it.
+       It can be transparent, or a very faint color that mixes with the glow. */
+    border: var(--glass-border-glow-thickness) solid transparent;
+    border-radius: var(--glass-card-main-radius);
+
+    /* The main container itself has no direct visible background;
+       its ::after pseudo-element provides it. */
+    background: transparent;
+
+    box-shadow: 0 10px 35px var(--glass-shadow-color);
+    text-align: center;
+    transition: transform 0.1s ease-out, box-shadow 0.1s ease-out;
+    overflow: hidden;
+    /* Important to clip ::after to rounded corners */
+}
+
+/* This is the SUBTLE RADIAL LIGHT ON THE SURFACE (from your original request) */
+/* It's different from the border glow. You can keep or remove it. */
+.glass-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* This radius will be for the overall card shape.
+       The surface light appears ON the ::after pseudo-element's area. */
+    border-radius: var(--glass-card-main-radius);
+    /* Match outer */
+    background: radial-gradient(circle 200px at var(--mouse-x, 50%) var(--mouse-y, 50%),
+            var(--radial-light-color) 0%,
+            /* Very subtle surface light */
+            transparent 70%);
+    opacity: 0;
+    /* Shown on hover of glass-container */
+    transition: opacity 0.2s ease-out;
+    pointer-events: none;
+    z-index: 2;
+    /* Above ::after (inner background), below content */
+}
+
+.glass-container:hover::before {
+    opacity: 1;
+    /* Make this surface light subtle if border glow is primary */
+}
+
+/* ::after provides the actual opaque background of the card, inset from the border */
+.glass-container::after {
+    content: '';
+    position: absolute;
+    /* Fills the parent's padding-box, which is inside its border */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+
+    background: var(--glass-bg-color-inner);
+    /* The actual card background color */
+    /* Radius should be smaller to fit inside the parent's border */
+    border-radius: calc(var(--glass-card-main-radius) - var(--glass-border-glow-thickness));
+
+    /* Apply glassmorphism to this inner background layer */
+    backdrop-filter: blur(12px) saturate(160%);
+    -webkit-backdrop-filter: blur(12px) saturate(160%);
+    /* Safari */
+    z-index: 1;
+    /* Behind .glass-content and ::before (surface light) */
+}
+
+.glass-content {
+    position: relative;
+    z-index: 3;
+    /* On top of all pseudo-elements */
+    /* Adjust padding for content based on how .glass-container padding is set now */
+    padding: 35px 40px;
+    /* Inner padding for the actual text/icons */
+    background: transparent;
+    /* Content area itself is transparent */
+}
+
+.name {
+    font-size: clamp(2.2rem, 5vw, 2.8rem);
+    margin-top: 0;
+    margin-bottom: 30px;
+    color: var(--text-color);
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.icons-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    justify-items: center;
+}
+
+.icon-link {
+    color: var(--icon-color);
+    font-size: clamp(1.8rem, 4vw, 2.3rem);
+    transition: color 0.3s ease, transform 0.3s ease;
+    padding: 5px;
+    /* For a larger clickable area */
+}
+
+.icon-link:hover {
+    color: var(--icon-hover-color);
+    transform: translateY(-4px) scale(1.1);
+}
+
+/* Specific icon hover colors */
+.icon-link:hover .fa-github {
+    color: #e1e1e1;
+}
+
+/* Lighter gray */
+.icon-link:hover .fa-envelope {
+    color: var(--dracula-green);
+}
+
+.icon-link:hover .fa-linkedin {
+    color: #0A66C2;
+}
+
+/* Official LinkedIn blue */
+.icon-link:hover .fa-file-lines {
+    color: var(--dracula-orange);
+}
+
+@media (max-width: 480px) {
+    .glass-container {
+        padding: 30px 25px;
+    }
+
+    .name {
+        font-size: 2rem;
+        margin-bottom: 25px;
+    }
+
+    .icons-grid {
+        gap: 15px;
+    }
+
+    .icon-link {
+        font-size: 1.8rem;
+    }
+}
+
+#mouse-glow-border-light {
+    position: fixed;
+    width: 350px;
+    /* Adjust size of the glow area */
+    height: 350px;
+    background: radial-gradient(circle,
+            rgba(255, 255, 255, 0.6) 0%,
+            /* Brighter white at center */
+            rgba(255, 255, 255, 0.2) 30%,
+            transparent 60%
+            /* How quickly it fades */
+        );
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    /* Center on mouse cursor */
+    pointer-events: none;
+    z-index: 1;
+    /* IMPORTANT: Below .glass-container-wrapper, above page background */
+    opacity: 0;
+    /* Controlled by JS */
+    display: none;
+    /* Start hidden */
+    /* No transition here, JS handles opacity directly for responsiveness with distance */
+}
