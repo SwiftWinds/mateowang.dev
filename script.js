@@ -62,112 +62,39 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     // Glass card effects
-    if (glassCard) {
-        glassCard.addEventListener('mousemove', (e) => {
-            const mouseXGlobal = e.clientX;
-            const mouseYGlobal = e.clientY;
-            const elementRect = glassCard.getBoundingClientRect();
+    if (glassCard) { // glassCard is already defined as glassCardForProximity, or get it again
+        const glassCardElement = document.getElementById('glassCard'); // Use a distinct variable if needed
+
+        glassCardElement.addEventListener('mousemove', (e) => {
+            const elementRect = glassCardElement.getBoundingClientRect();
 
             // --- Parallax Effect ---
-            const xRelativeToCard = mouseXGlobal - elementRect.left - elementRect.width / 2;
-            const yRelativeToCard = mouseYGlobal - elementRect.top - elementRect.height / 2;
+            const xRelativeToCard = e.clientX - elementRect.left - elementRect.width / 2;
+            const yRelativeToCard = e.clientY - elementRect.top - elementRect.height / 2;
             const rotateY = (xRelativeToCard / (elementRect.width / 2)) * 8;
             const rotateX = (-yRelativeToCard / (elementRect.height / 2)) * 8;
-            glassCard.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.03)`;
+            glassCardElement.style.transform = `rotateX(<span class="math-inline">\{rotateX\}deg\) rotateY\(</span>{rotateY}deg) scale(1.03)`;
 
             // --- Radial Lighting on Surface (::before pseudo-element) ---
-            const lightXPercent = ((mouseXGlobal - elementRect.left) / elementRect.width) * 100;
-            const lightYPercent = ((mouseYGlobal - elementRect.top) / elementRect.height) * 100;
-            glassCard.style.setProperty('--mouse-x', `${lightXPercent}%`);
-            glassCard.style.setProperty('--mouse-y', `${lightYPercent}%`);
-
-            // --- New Edge Lighting with Mask (::after pseudo-element) ---
-            const mouseXInElement = mouseXGlobal - elementRect.left;
-            const mouseYInElement = mouseYGlobal - elementRect.top;
-
-            const edgeProximityThreshold = 90; // How close mouse needs to be to an edge for full glow (px)
-            const minProximityForAnyGlow = 160; // Mouse must be at least this close to see any glow
-            const maxGlowIntensity = 1.0;
-
-            let minDistToEdge = Infinity;
-            let finalMaskX = '50%'; // Default to center if not near an edge
-            let finalMaskY = '50%';
-            let calculatedOpacity = 0;
-
-            // Distances to each edge's line
-            const distTop = Math.abs(mouseYInElement);
-            const distBottom = Math.abs(mouseYInElement - elementRect.height);
-            const distLeft = Math.abs(mouseXInElement);
-            const distRight = Math.abs(mouseXInElement - elementRect.width);
-
-            // Check Top Edge
-            if (mouseXInElement >= 0 && mouseXInElement <= elementRect.width) { // Is mouse horizontally within card?
-                if (distTop < minDistToEdge) minDistToEdge = distTop;
-                if (distTop < minProximityForAnyGlow) {
-                    const currentOpacity = (1 - Math.max(0, distTop - 0) / edgeProximityThreshold) * maxGlowIntensity;
-                    if (currentOpacity > calculatedOpacity) {
-                        calculatedOpacity = currentOpacity;
-                        finalMaskX = `${(mouseXInElement / elementRect.width) * 100}%`;
-                        finalMaskY = `0%`; // Project mask center onto the top edge
-                    }
-                }
-            }
-            // Check Bottom Edge
-            if (mouseXInElement >= 0 && mouseXInElement <= elementRect.width) {
-                if (distBottom < minDistToEdge) minDistToEdge = distBottom;
-                if (distBottom < minProximityForAnyGlow) {
-                    const currentOpacity = (1 - Math.max(0, distBottom - 0) / edgeProximityThreshold) * maxGlowIntensity;
-                    if (currentOpacity > calculatedOpacity) {
-                        calculatedOpacity = currentOpacity;
-                        finalMaskX = `${(mouseXInElement / elementRect.width) * 100}%`;
-                        finalMaskY = `100%`; // Project mask center onto the bottom edge
-                    }
-                }
-            }
-            // Check Left Edge
-            if (mouseYInElement >= 0 && mouseYInElement <= elementRect.height) { // Is mouse vertically within card?
-                if (distLeft < minDistToEdge) minDistToEdge = distLeft;
-                if (distLeft < minProximityForAnyGlow) {
-                    const currentOpacity = (1 - Math.max(0, distLeft - 0) / edgeProximityThreshold) * maxGlowIntensity;
-                    if (currentOpacity > calculatedOpacity) {
-                        calculatedOpacity = currentOpacity;
-                        finalMaskX = `0%`; // Project mask center onto the left edge
-                        finalMaskY = `${(mouseYInElement / elementRect.height) * 100}%`;
-                    }
-                }
-            }
-            // Check Right Edge
-            if (mouseYInElement >= 0 && mouseYInElement <= elementRect.height) {
-                if (distRight < minDistToEdge) minDistToEdge = distRight;
-                if (distRight < minProximityForAnyGlow) {
-                    const currentOpacity = (1 - Math.max(0, distRight - 0) / edgeProximityThreshold) * maxGlowIntensity;
-                    if (currentOpacity > calculatedOpacity) {
-                        calculatedOpacity = currentOpacity;
-                        finalMaskX = `100%`; // Project mask center onto the right edge
-                        finalMaskY = `${(mouseYInElement / elementRect.height) * 100}%`;
-                    }
-                }
-            }
-
-            // If the closest calculated distance is still too far, no glow.
-            if (minDistToEdge > minProximityForAnyGlow) {
-                calculatedOpacity = 0;
-            }
-
-            glassCard.style.setProperty('--edge-mask-x', finalMaskX);
-            glassCard.style.setProperty('--edge-mask-y', finalMaskY);
-            glassCard.style.setProperty('--edge-mask-opacity', `${Math.max(0, Math.min(calculatedOpacity, maxGlowIntensity))}`);
+            // Position is updated only when mouse is over glassCardElement.
+            // Opacity is controlled by .glass-container:hover::before in CSS.
+            const lightXPercent = ((e.clientX - elementRect.left) / elementRect.width) * 100;
+            const lightYPercent = ((e.clientY - elementRect.top) / elementRect.height) * 100;
+            glassCardElement.style.setProperty('--mouse-x', `${lightXPercent}%`);
+            glassCardElement.style.setProperty('--mouse-y', `${lightYPercent}%`);
         });
 
-        glassCard.addEventListener('mouseleave', () => {
-            glassCard.style.transform = 'rotateX(0deg) rotateY(0deg) scale(1)';
-            // Reset radial surface light
-            glassCard.style.setProperty('--mouse-x', '50%');
-            glassCard.style.setProperty('--mouse-y', '50%');
-            // Reset edge mask
-            glassCard.style.setProperty('--edge-mask-opacity', '0');
-            glassCard.style.setProperty('--edge-mask-x', '50%'); // Reset position for consistency
-            glassCard.style.setProperty('--edge-mask-y', '50%');
+        glassCardElement.addEventListener('mouseenter', () => {
+            // Parallax scale is handled in mousemove for continuous effect while over.
+            // Opacity of ::before is handled by CSS :hover.
+            // No specific actions needed here unless you want a one-time scale on enter.
+        });
+
+        glassCardElement.addEventListener('mouseleave', () => {
+            glassCardElement.style.transform = 'rotateX(0deg) rotateY(0deg) scale(1)';
+            // DO NOT reset --mouse-x, --mouse-y for the ::before surface light here.
+            // Its opacity will go to 0 via CSS :hover, making its last position irrelevant
+            // and preventing the "flash to center" issue.
         });
     }
 
@@ -190,19 +117,20 @@ document.addEventListener('DOMContentLoaded', () => {
     updateGlassCardRect(); // Initial call
 
     document.addEventListener('mousemove', (e) => {
-        // Position the global glow light
         mouseGlowBorderLight.style.left = `${e.clientX}px`;
         mouseGlowBorderLight.style.top = `${e.clientY}px`;
 
         if (!glassCardRect) return;
 
-        const proximityZone = 200; // px: How far from card's edge the glow starts fading in
-        const fullGlowZone = 50;   // px: Distance at which glow is at max configured opacity
+        const proximityZone = 100; // Glow starts fading from this distance (mouse to edge)
+        const fullGlowZone = 20;   // Glow is at max configured opacity when mouse is this close or closer
+        // Range for fade: proximityZone - fullGlowZone (e.g., 100-20 = 80px)
+        const maxBorderGlowOpacity = 0.95; // Max visual opacity for the border glow (0.0 to 1.0)
+
 
         const mouseX = e.clientX;
         const mouseY = e.clientY;
 
-        // Calculate closest point on the rectangle's perimeter to the mouse
         const closestX = Math.max(glassCardRect.left, Math.min(mouseX, glassCardRect.right));
         const closestY = Math.max(glassCardRect.top, Math.min(mouseY, glassCardRect.bottom));
 
@@ -210,28 +138,27 @@ document.addEventListener('DOMContentLoaded', () => {
         const distanceY = mouseY - closestY;
         const distanceToEdge = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
 
-        let targetOpacity = 0;
+        let calculatedOpacity = 0;
         if (distanceToEdge < proximityZone) {
-            // Calculate opacity: 1 when very close (<= fullGlowZone), fading to 0 at proximityZone
-            targetOpacity = 1 - Math.max(0, (distanceToEdge - fullGlowZone)) / (proximityZone - fullGlowZone);
-            // Clamp opacity to a max desired visual strength for the border glow (e.g., 0.3-0.5 for white)
-            targetOpacity = Math.min(targetOpacity, 0.35);
+            if (distanceToEdge <= fullGlowZone) {
+                calculatedOpacity = 1.0; // Raw opacity is 1 within fullGlowZone
+            } else {
+                // Linear fade from 1.0 down to 0.0 over the range (proximityZone - fullGlowZone)
+                calculatedOpacity = 1.0 - (distanceToEdge - fullGlowZone) / (proximityZone - fullGlowZone);
+            }
         }
 
-        mouseGlowBorderLight.style.opacity = targetOpacity.toFixed(2);
+        const targetOpacity = Math.min(calculatedOpacity, 1.0) * maxBorderGlowOpacity; // Apply overall max opacity
 
-        // This ensures the display:block is set if opacity becomes > 0
-        if (targetOpacity > 0) {
+        mouseGlowBorderLight.style.opacity = targetOpacity.toFixed(3);
+
+        if (targetOpacity > 0.001) { // Use a small threshold to avoid floating point issues with === 0
             mouseGlowBorderLight.style.display = 'block';
-        } else if (mouseGlowBorderLight.style.opacity === '0.00' || mouseGlowBorderLight.style.opacity === '0') {
-            // Only hide if opacity is truly zero after calculations.
-            // A timeout can prevent flickering if mouse jitters at the edge of opacity change.
-            clearTimeout(glowBorderTimeout);
-            glowBorderTimeout = setTimeout(() => {
-                if (parseFloat(mouseGlowBorderLight.style.opacity) === 0) {
-                    mouseGlowBorderLight.style.display = 'none';
-                }
-            }, 50); // Short delay
+        } else {
+            clearTimeout(glowBorderTimeout); // Clear any pending hide
+            // Only hide if opacity calculation is effectively zero
+            // No timeout needed if opacity transition in CSS is removed or very fast
+            mouseGlowBorderLight.style.display = 'none';
         }
     });
 
