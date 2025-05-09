@@ -196,7 +196,7 @@
       width: var(--icon-size-large);
       height: var(--icon-size-large);
     }
-    
+
     .resume-link {
       width: calc(var(--icon-size-normal) + 2px);
       height: calc(var(--icon-size-normal) + 2px);
@@ -338,17 +338,21 @@
       const normalizedY = deltaY / (window.innerHeight / 2);
 
       // Check if mouse is over the card
-      const isMouseOverCard = 
+      const isMouseOverCard =
         mouseX >= rect.left && mouseX <= rect.right &&
         mouseY >= rect.top && mouseY <= rect.bottom;
 
       // Apply parallax effect only when mouse is over the card
       if (isMouseOverCard) {
-        const tiltAmount = 15; // Increased from 8 to 15 for more drastic effect
+        const tiltAmount = 20; // Balanced tilt effect
         const tiltX = normalizedY * tiltAmount;
         const tiltY = -normalizedX * tiltAmount;
         card.style.transform = `perspective(1000px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) scale(1.02)`;
+
+        // Add a subtle movement to the card even when not directly hovering
+        card.style.transition = 'transform 0.2s ease';
       } else {
+        // Return to flat state when not hovering
         card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale(1)';
       }
 
@@ -423,7 +427,8 @@
 
     // Reset card transform when mouse leaves
     document.addEventListener('mouseleave', () => {
-      card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0)';
+      card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale(1)';
+      card.style.transition = 'transform 0.5s ease';
       edgeLight.style.boxShadow = 'none';
       edgeLight.style.background = 'none';
     });
