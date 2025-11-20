@@ -6,248 +6,250 @@
 		<meta name="theme-color" content="#1f2024">
 		<title>Mateo Wang</title>
 		<style>
-      :root {
-        --bg-color-dark: #1f2023;
-        --bg-color-light: #424472;
-        --card-bg: rgba(30, 25, 40, 0.4);
-        --text-color: #f8f8f2;
-        --accent-color: #bd93f9;
-        --card-border: rgba(255, 255, 255, 0.1);
-        --icon-size-normal: 32px;
-        --icon-size-large: 36px;
-        --github-hover: #bd93f9;
-        --email-hover: #50fa7b;
-        --linkedin-hover: #0a66c2;
-        --resume-hover: #ffb86c;
-      }
+		:root {
+			--bg-color-dark: #1f2023;
+			--bg-color-light: #424472;
+			--card-bg: rgba(30, 25, 40, 0.4);
+			--text-color: #f8f8f2;
+			--accent-color: #bd93f9;
+			--card-border: rgba(255, 255, 255, 0.1);
+			--icon-size-normal: 32px;
+			--icon-size-large: 36px;
+			--github-hover: #bd93f9;
+			--email-hover: #50fa7b;
+			--linkedin-hover: #0a66c2;
+			--resume-hover: #ffb86c;
+		}
 
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
+		* {
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+		}
 
-      body {
-        font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI",
-          Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
-          sans-serif;
-        background-image: linear-gradient(
-          var(--bg-color-dark),
-          var(--bg-color-light)
-        );
-        color: var(--text-color);
-        height: 100vh;
-        width: 100vw;
-        overflow: hidden;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        position: relative;
-        touch-action: none;
-        -webkit-overflow-scrolling: none;
-      }
+		body {
+			font-family:
+				"Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+				Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+			background-image: linear-gradient(
+				var(--bg-color-dark),
+				var(--bg-color-light)
+			);
+			color: var(--text-color);
+			height: 100vh;
+			width: 100vw;
+			overflow: hidden;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			position: relative;
+			touch-action: none;
+			-webkit-overflow-scrolling: none;
+		}
 
-      .light {
-        height: 100%;
-        width: 100%;
-        position: absolute;
-        top: 0;
-        left: 0;
-        z-index: 0;
-        pointer-events: none;
-      }
+		.light {
+			height: 100%;
+			width: 100%;
+			position: absolute;
+			top: 0;
+			left: 0;
+			z-index: 0;
+			pointer-events: none;
+		}
 
-      .light:before {
-        content: "";
-        display: block;
-        position: absolute;
-        width: 120%;
-        height: 120%;
-        top: 40%;
-        left: -10%;
-        background: radial-gradient(
-          48.58% 48.58% at 49.96% 59.07%,
-          #927cff 0%,
-          rgba(142, 133, 190, 0.4) 43.23%,
-          rgba(59, 61, 70, 0) 100%
-        );
-      }
+		.light:before {
+			content: "";
+			display: block;
+			position: absolute;
+			width: 120%;
+			height: 120%;
+			top: 40%;
+			left: -10%;
+			background: radial-gradient(
+				48.58% 48.58% at 49.96% 59.07%,
+				#927cff 0%,
+				rgba(142, 133, 190, 0.4) 43.23%,
+				rgba(59, 61, 70, 0) 100%
+			);
+		}
 
-      /* Bottom right gradient removed */
+		.star {
+			position: absolute;
+			background-color: #ffffff;
+			border-radius: 50%;
+		}
 
-      .star {
-        position: absolute;
-        background-color: #ffffff;
-        border-radius: 50%;
-      }
+		.star1 {
+			animation: 3s linear 1s infinite alternate twinkle;
+		}
 
-      .star1 {
-        animation: 3s linear 1s infinite alternate twinkle;
-      }
+		.star2 {
+			animation: 4s linear 0s infinite alternate twinkle;
+		}
 
-      .star2 {
-        animation: 4s linear 0s infinite alternate twinkle;
-      }
+		.star3 {
+			animation: 3.5s linear 0.5s infinite alternate twinkle;
+		}
 
-      .star3 {
-        animation: 3.5s linear 0.5s infinite alternate twinkle;
-      }
+		.star4 {
+			animation: 1.25s linear 1.5s infinite alternate twinkle;
+		}
 
-      .star4 {
-        animation: 1.25s linear 1.5s infinite alternate twinkle;
-      }
+		.star5 {
+			animation: 4s linear 2s infinite alternate twinkle;
+		}
 
-      .star5 {
-        animation: 4s linear 2s infinite alternate twinkle;
-      }
+		.star6 {
+			animation: 2.5s linear 1s infinite alternate twinkle;
+		}
 
-      .star6 {
-        animation: 2.5s linear 1s infinite alternate twinkle;
-      }
+		@keyframes twinkle {
+			0% {
+				opacity: 1;
+			}
 
-      @keyframes twinkle {
-        0% {
-          opacity: 1;
-        }
+			50% {
+				opacity: 0;
+			}
 
-        50% {
-          opacity: 0;
-        }
+			100% {
+				opacity: 1;
+			}
+		}
 
-        100% {
-          opacity: 1;
-        }
-      }
+		.card {
+			position: relative;
+			width: 350px;
+			padding: 40px;
+			border-radius: 16px;
+			background: var(--card-bg);
+			backdrop-filter: blur(10px);
+			-webkit-backdrop-filter: blur(10px);
+			border: 1px solid var(--card-border);
+			box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+			text-align: center;
+			z-index: 1;
+			transition:
+				transform 0.3s ease,
+				box-shadow 0.3s ease;
+			overflow: hidden;
+		}
 
-      .card {
-        position: relative;
-        width: 350px;
-        padding: 40px;
-        border-radius: 16px;
-        background: var(--card-bg);
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
-        border: 1px solid var(--card-border);
-        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
-        text-align: center;
-        z-index: 1;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-        overflow: hidden;
-      }
+		.card::before {
+			content: "";
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			border-radius: 16px;
+			pointer-events: none;
+			z-index: -1;
+			background: radial-gradient(
+				circle at var(--x) var(--y),
+				rgba(189, 147, 249, 0.15),
+				transparent 40%
+			);
+			opacity: 0;
+			transition: opacity 0.3s ease;
+		}
 
-      .card::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        border-radius: 16px;
-        pointer-events: none;
-        z-index: -1;
-        background: radial-gradient(
-          circle at var(--x) var(--y),
-          rgba(189, 147, 249, 0.15),
-          transparent 40%
-        );
-        opacity: 0;
-        transition: opacity 0.3s ease;
-      }
+		.card:hover::before {
+			opacity: 1;
+		}
 
-      .card:hover::before {
-        opacity: 1;
-      }
+		.card .edge-light {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			border-radius: 16px;
+			pointer-events: none;
+			z-index: 1;
+		}
 
-      .card .edge-light {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        border-radius: 16px;
-        pointer-events: none;
-        z-index: 1;
-      }
+		.name {
+			font-size: 32px;
+			font-weight: 700;
+			margin-bottom: 8px;
+			background: linear-gradient(
+				135deg,
+				var(--text-color),
+				var(--accent-color)
+			);
+			-webkit-background-clip: text;
+			background-clip: text;
+			-webkit-text-fill-color: transparent;
+		}
 
-      .name {
-        font-size: 32px;
-        font-weight: 700;
-        margin-bottom: 8px;
-        background: linear-gradient(
-          135deg,
-          var(--text-color),
-          var(--accent-color)
-        );
-        -webkit-background-clip: text;
-        background-clip: text;
-        -webkit-text-fill-color: transparent;
-      }
+		.subtitle {
+			font-size: 16px;
+			font-weight: 400;
+			margin-bottom: 20px;
+			color: var(--text-color);
+			opacity: 0.8;
+		}
 
-      .subtitle {
-        font-size: 16px;
-        font-weight: 400;
-        margin-bottom: 20px;
-        color: var(--text-color);
-        opacity: 0.8;
-      }
+		.social-links {
+			display: flex;
+			justify-content: center;
+			gap: 25px;
+			margin-top: 25px;
+		}
 
-      .social-links {
-        display: flex;
-        justify-content: center;
-        gap: 25px;
-        margin-top: 25px;
-      }
+		.social-link {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			color: var(--text-color);
+			transition:
+				transform 0.2s ease,
+				color 0.2s ease;
+		}
 
-      .social-link {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: var(--text-color);
-        transition: transform 0.2s ease, color 0.2s ease;
-      }
+		.github-link,
+		.linkedin-link {
+			width: var(--icon-size-normal);
+			height: var(--icon-size-normal);
+		}
 
-      .github-link,
-      .linkedin-link {
-        width: var(--icon-size-normal);
-        height: var(--icon-size-normal);
-      }
+		.email-link {
+			width: var(--icon-size-large);
+			height: var(--icon-size-large);
+		}
 
-      .email-link {
-        width: var(--icon-size-large);
-        height: var(--icon-size-large);
-      }
+		.resume-link {
+			width: calc(var(--icon-size-normal) + 2px);
+			height: calc(var(--icon-size-normal) + 2px);
+		}
 
-      .resume-link {
-        width: calc(var(--icon-size-normal) + 2px);
-        height: calc(var(--icon-size-normal) + 2px);
-      }
+		.social-link:hover {
+			transform: translateY(-3px);
+		}
 
-      .social-link:hover {
-        transform: translateY(-3px);
-      }
+		.github-link:hover {
+			color: var(--github-hover);
+		}
 
-      .github-link:hover {
-        color: var(--github-hover);
-      }
+		.email-link:hover {
+			color: var(--email-hover);
+		}
 
-      .email-link:hover {
-        color: var(--email-hover);
-      }
+		.linkedin-link:hover {
+			color: var(--linkedin-hover);
+		}
 
-      .linkedin-link:hover {
-        color: var(--linkedin-hover);
-      }
+		.resume-link:hover {
+			color: var(--resume-hover);
+		}
 
-      .resume-link:hover {
-        color: var(--resume-hover);
-      }
-
-      .social-link svg {
-        width: 100%;
-        height: 100%;
-        fill: currentColor;
-      }
-    </style>
+		.social-link svg {
+			width: 100%;
+			height: 100%;
+			fill: currentColor;
+		}
+		</style>
 	</head>
 
 	<body>
@@ -319,181 +321,181 @@
 		</div>
 
 		<script>
-      // Create stars based on the provided code
-      const starsContainer = document.getElementById("stars-container");
-      const numStars = 300;
-      const sizes = [1, 1, 2, 3, 4];
+		// Create stars based on the provided code
+		const starsContainer = document.getElementById("stars-container");
+		const numStars = 300;
+		const sizes = [1, 1, 2, 3, 4];
 
-      function randomPosition(min, max) {
-        return Math.floor(Math.random() * (max - min + 1)) + min;
-      }
+		function randomPosition(min, max) {
+			return Math.floor(Math.random() * (max - min + 1)) + min;
+		}
 
-      for (let i = 0; i < numStars; i++) {
-        const top = randomPosition(1, 100);
-        const left = randomPosition(1, 100);
-        const random = Math.floor(Math.random() * sizes.length);
-        const randomSize = sizes[random];
+		for (let i = 0; i < numStars; i++) {
+			const top = randomPosition(1, 100);
+			const left = randomPosition(1, 100);
+			const random = Math.floor(Math.random() * sizes.length);
+			const randomSize = sizes[random];
 
-        const star = document.createElement("div");
-        star.classList.add("star");
+			const star = document.createElement("div");
+			star.classList.add("star");
 
-        star.style.position = "absolute";
-        star.style.top = top + "%";
-        star.style.left = left + "%";
-        star.style.height = randomSize + "px";
-        star.style.width = randomSize + "px";
+			star.style.position = "absolute";
+			star.style.top = `${top}%`;
+			star.style.left = `${left}%`;
+			star.style.height = `${randomSize}px`;
+			star.style.width = `${randomSize}px`;
 
-        // Add different animation classes based on star index
-        if (i <= 50) {
-          star.classList.add("star1");
-        } else if (i <= 100) {
-          star.classList.add("star2");
-        } else if (i <= 150) {
-          star.classList.add("star3");
-        } else if (i <= 200) {
-          star.classList.add("star4");
-        } else if (i <= 250) {
-          star.classList.add("star5");
-        } else {
-          star.classList.add("star6");
-        }
+			// Add different animation classes based on star index
+			if (i <= 50) {
+				star.classList.add("star1");
+			} else if (i <= 100) {
+				star.classList.add("star2");
+			} else if (i <= 150) {
+				star.classList.add("star3");
+			} else if (i <= 200) {
+				star.classList.add("star4");
+			} else if (i <= 250) {
+				star.classList.add("star5");
+			} else {
+				star.classList.add("star6");
+			}
 
-        starsContainer.appendChild(star);
-      }
+			starsContainer.appendChild(star);
+		}
 
-      // Card parallax effect
-      const card = document.getElementById("card");
-      const edgeLight = document.getElementById("edge-light");
+		// Card parallax effect
+		const card = document.getElementById("card");
+		const edgeLight = document.getElementById("edge-light");
 
-      document.addEventListener("mousemove", (e) => {
-        const rect = card.getBoundingClientRect();
-        const cardCenterX = rect.left + rect.width / 2;
-        const cardCenterY = rect.top + rect.height / 2;
+		document.addEventListener("mousemove", (e) => {
+			const rect = card.getBoundingClientRect();
+			const cardCenterX = rect.left + rect.width / 2;
+			const cardCenterY = rect.top + rect.height / 2;
 
-        // Calculate mouse position relative to card center
-        const mouseX = e.clientX;
-        const mouseY = e.clientY;
-        const deltaX = mouseX - cardCenterX;
-        const deltaY = mouseY - cardCenterY;
+			// Calculate mouse position relative to card center
+			const mouseX = e.clientX;
+			const mouseY = e.clientY;
+			const deltaX = mouseX - cardCenterX;
+			const deltaY = mouseY - cardCenterY;
 
-        // Calculate normalized mouse position
-        const normalizedX = deltaX / (window.innerWidth / 2);
-        const normalizedY = deltaY / (window.innerHeight / 2);
+			// Calculate normalized mouse position
+			const normalizedX = deltaX / (window.innerWidth / 2);
+			const normalizedY = deltaY / (window.innerHeight / 2);
 
-        // Check if mouse is over the card
-        const isMouseOverCard =
-          mouseX >= rect.left &&
-          mouseX <= rect.right &&
-          mouseY >= rect.top &&
-          mouseY <= rect.bottom;
+			// Check if mouse is over the card
+			const isMouseOverCard =
+				mouseX >= rect.left &&
+				mouseX <= rect.right &&
+				mouseY >= rect.top &&
+				mouseY <= rect.bottom;
 
-        // Apply parallax effect only when mouse is over the card
-        if (isMouseOverCard) {
-          const tiltAmount = 20; // Balanced tilt effect
-          const tiltX = normalizedY * tiltAmount;
-          const tiltY = -normalizedX * tiltAmount;
-          card.style.transform = `perspective(1000px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) scale(1.02)`;
+			// Apply parallax effect only when mouse is over the card
+			if (isMouseOverCard) {
+				const tiltAmount = 20; // Balanced tilt effect
+				const tiltX = normalizedY * tiltAmount;
+				const tiltY = -normalizedX * tiltAmount;
+				card.style.transform = `perspective(1000px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) scale(1.02)`;
 
-          // Add a subtle movement to the card even when not directly hovering
-          card.style.transition = "transform 0.2s ease";
-        } else {
-          // Return to flat state when not hovering
-          card.style.transform =
-            "perspective(1000px) rotateX(0) rotateY(0) scale(1)";
-        }
+				// Add a subtle movement to the card even when not directly hovering
+				card.style.transition = "transform 0.2s ease";
+			} else {
+				// Return to flat state when not hovering
+				card.style.transform =
+					"perspective(1000px) rotateX(0) rotateY(0) scale(1)";
+			}
 
-        // Calculate mouse position relative to card
-        const cardX = ((mouseX - rect.left) / rect.width) * 100;
-        const cardY = ((mouseY - rect.top) / rect.height) * 100;
+			// Calculate mouse position relative to card
+			const cardX = ((mouseX - rect.left) / rect.width) * 100;
+			const cardY = ((mouseY - rect.top) / rect.height) * 100;
 
-        // Calculate distance from mouse to card center
-        const dx = mouseX - cardCenterX;
-        const dy = mouseY - cardCenterY;
-        const distance = Math.sqrt(dx * dx + dy * dy);
+			// Calculate distance from mouse to card center
+			const dx = mouseX - cardCenterX;
+			const dy = mouseY - cardCenterY;
+			const distance = Math.sqrt(dx * dx + dy * dy);
 
-        // Update radial light gradient position
-        card.style.setProperty("--x", `${cardX}%`);
-        card.style.setProperty("--y", `${cardY}%`);
+			// Update radial light gradient position
+			card.style.setProperty("--x", `${cardX}%`);
+			card.style.setProperty("--y", `${cardY}%`);
 
-        // Generate edge lighting effect
-        const isNearCard = distance < rect.width / 2 + 100;
-        if (isNearCard) {
-          // Find the closest point on the edge
-          let edgeX, edgeY;
+			// Generate edge lighting effect
+			const isNearCard = distance < rect.width / 2 + 100;
+			if (isNearCard) {
+				// Find the closest point on the edge
+				let edgeX, edgeY;
 
-          // If mouse is inside the card
-          if (
-            mouseX >= rect.left &&
-            mouseX <= rect.right &&
-            mouseY >= rect.top &&
-            mouseY <= rect.bottom
-          ) {
-            // Find closest edge
-            const distToLeft = mouseX - rect.left;
-            const distToRight = rect.right - mouseX;
-            const distToTop = mouseY - rect.top;
-            const distToBottom = rect.bottom - mouseY;
+				// If mouse is inside the card
+				if (
+					mouseX >= rect.left &&
+					mouseX <= rect.right &&
+					mouseY >= rect.top &&
+					mouseY <= rect.bottom
+				) {
+					// Find closest edge
+					const distToLeft = mouseX - rect.left;
+					const distToRight = rect.right - mouseX;
+					const distToTop = mouseY - rect.top;
+					const distToBottom = rect.bottom - mouseY;
 
-            const minDist = Math.min(
-              distToLeft,
-              distToRight,
-              distToTop,
-              distToBottom
-            );
+					const minDist = Math.min(
+						distToLeft,
+						distToRight,
+						distToTop,
+						distToBottom,
+					);
 
-            if (minDist === distToLeft) edgeX = rect.left;
-            else if (minDist === distToRight) edgeX = rect.right;
-            else edgeX = mouseX;
+					if (minDist === distToLeft) edgeX = rect.left;
+					else if (minDist === distToRight) edgeX = rect.right;
+					else edgeX = mouseX;
 
-            if (minDist === distToTop) edgeY = rect.top;
-            else if (minDist === distToBottom) edgeY = rect.bottom;
-            else edgeY = mouseY;
-          } else {
-            // Mouse outside card - find closest point on perimeter
-            if (mouseX < rect.left) edgeX = rect.left;
-            else if (mouseX > rect.right) edgeX = rect.right;
-            else edgeX = mouseX;
+					if (minDist === distToTop) edgeY = rect.top;
+					else if (minDist === distToBottom) edgeY = rect.bottom;
+					else edgeY = mouseY;
+				} else {
+					// Mouse outside card - find closest point on perimeter
+					if (mouseX < rect.left) edgeX = rect.left;
+					else if (mouseX > rect.right) edgeX = rect.right;
+					else edgeX = mouseX;
 
-            if (mouseY < rect.top) edgeY = rect.top;
-            else if (mouseY > rect.bottom) edgeY = rect.bottom;
-            else edgeY = mouseY;
-          }
+					if (mouseY < rect.top) edgeY = rect.top;
+					else if (mouseY > rect.bottom) edgeY = rect.bottom;
+					else edgeY = mouseY;
+				}
 
-          // Calculate relative edge position
-          const relEdgeX = ((edgeX - rect.left) / rect.width) * 100;
-          const relEdgeY = ((edgeY - rect.top) / rect.height) * 100;
+				// Calculate relative edge position
+				const relEdgeX = ((edgeX - rect.left) / rect.width) * 100;
+				const relEdgeY = ((edgeY - rect.top) / rect.height) * 100;
 
-          // Calculate distance from mouse to edge
-          const mouseToEdgeX = mouseX - edgeX;
-          const mouseToEdgeY = mouseY - edgeY;
-          const mouseToEdgeDist = Math.sqrt(
-            mouseToEdgeX * mouseToEdgeX + mouseToEdgeY * mouseToEdgeY
-          );
+				// Calculate distance from mouse to edge
+				const mouseToEdgeX = mouseX - edgeX;
+				const mouseToEdgeY = mouseY - edgeY;
+				const mouseToEdgeDist = Math.sqrt(
+					mouseToEdgeX * mouseToEdgeX + mouseToEdgeY * mouseToEdgeY,
+				);
 
-          // Create gradient for edge lighting
-          const gradientSize = 30;
-          const intensity = Math.max(0, 1 - mouseToEdgeDist / 100);
+				// Create gradient for edge lighting
+				const gradientSize = 30;
+				const intensity = Math.max(0, 1 - mouseToEdgeDist / 100);
 
-          edgeLight.style.boxShadow = `0 0 20px 3px rgba(189, 147, 249, ${
-            intensity * 0.5
-          })`;
-          edgeLight.style.background = `radial-gradient(circle at ${relEdgeX}% ${relEdgeY}%, rgba(189, 147, 249, ${
-            intensity * 0.3
-          }) 0%, transparent ${gradientSize}%)`;
-        } else {
-          edgeLight.style.boxShadow = "none";
-          edgeLight.style.background = "none";
-        }
-      });
+				edgeLight.style.boxShadow = `0 0 20px 3px rgba(189, 147, 249, ${
+					intensity * 0.5
+				})`;
+				edgeLight.style.background = `radial-gradient(circle at ${relEdgeX}% ${relEdgeY}%, rgba(189, 147, 249, ${
+					intensity * 0.3
+				}) 0%, transparent ${gradientSize}%)`;
+			} else {
+				edgeLight.style.boxShadow = "none";
+				edgeLight.style.background = "none";
+			}
+		});
 
-      // Reset card transform when mouse leaves
-      document.addEventListener("mouseleave", () => {
-        card.style.transform =
-          "perspective(1000px) rotateX(0) rotateY(0) scale(1)";
-        card.style.transition = "transform 0.5s ease";
-        edgeLight.style.boxShadow = "none";
-        edgeLight.style.background = "none";
-      });
-    </script>
+		// Reset card transform when mouse leaves
+		document.addEventListener("mouseleave", () => {
+			card.style.transform =
+				"perspective(1000px) rotateX(0) rotateY(0) scale(1)";
+			card.style.transition = "transform 0.5s ease";
+			edgeLight.style.boxShadow = "none";
+			edgeLight.style.background = "none";
+		});
+		</script>
 	</body>
 </html>
