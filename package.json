@@ -1,0 +1,28 @@
+{
+  "name": "mateowang.dev",
+  "version": "1.0.0",
+  "description": "My personal website",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SwiftWinds/mateowang.dev.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/SwiftWinds/mateowang.dev/issues"
+  },
+  "homepage": "https://github.com/SwiftWinds/mateowang.dev#readme",
+  "dependencies": {
+    "@astrojs/mdx": "^5.0.2",
+    "astro": "^6.0.8",
+    "mdast-util-to-string": "^4.0.0",
+    "reading-time": "^1.5.0"
+  }
+}

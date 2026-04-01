@@ -1,0 +1,323 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="Mateo Wang">
+	<div class="home-wrapper">
+		<div class="card" id="card">
+			<div class="edge-light" id="edge-light"></div>
+			<h1 class="name">Mateo Wang</h1>
+			<div class="subtitle">Software Developer • ML Engineer</div>
+			<nav class="blog-nav">
+				<a href="/blog">Blog</a>
+			</nav>
+			<div class="social-links">
+				<a
+					href="https://github.com/SwiftWinds"
+					class="social-link github-link"
+					target="_blank"
+					rel="noopener"
+					aria-label="GitHub"
+				>
+					<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+						<path
+							d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"
+						/>
+					</svg>
+				</a>
+
+				<a
+					href="mailto:hey@mateowang.dev"
+					class="social-link email-link"
+					aria-label="Email"
+				>
+					<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+						<path
+							d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"
+						/>
+					</svg>
+				</a>
+
+				<a
+					href="https://linkedin.com/in/mateo-wang"
+					class="social-link linkedin-link"
+					target="_blank"
+					rel="noopener"
+					aria-label="LinkedIn"
+				>
+					<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+						<path
+							d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"
+						/>
+					</svg>
+				</a>
+
+				<a
+					href="/resume.pdf"
+					class="social-link resume-link"
+					target="_blank"
+					aria-label="Resume"
+				>
+					<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+						<path
+							d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"
+						/>
+					</svg>
+				</a>
+			</div>
+		</div>
+	</div>
+</BaseLayout>
+
+<style>
+	.home-wrapper {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		height: 100vh;
+		width: 100vw;
+		overflow: hidden;
+		position: relative;
+		z-index: 1;
+		touch-action: none;
+		-webkit-overflow-scrolling: none;
+	}
+
+	.card {
+		position: relative;
+		width: 350px;
+		padding: 40px;
+		border-radius: 16px;
+		background: var(--card-bg);
+		backdrop-filter: blur(10px);
+		-webkit-backdrop-filter: blur(10px);
+		border: 1px solid var(--card-border);
+		box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+		text-align: center;
+		z-index: 1;
+		transition:
+			transform 0.3s ease,
+			box-shadow 0.3s ease;
+		overflow: hidden;
+	}
+
+	.card::before {
+		content: "";
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		border-radius: 16px;
+		pointer-events: none;
+		z-index: -1;
+		background: radial-gradient(
+			circle at var(--x) var(--y),
+			rgba(189, 147, 249, 0.15),
+			transparent 40%
+		);
+		opacity: 0;
+		transition: opacity 0.3s ease;
+	}
+
+	.card:hover::before {
+		opacity: 1;
+	}
+
+	.card .edge-light {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		border-radius: 16px;
+		pointer-events: none;
+		z-index: 1;
+	}
+
+	.name {
+		font-size: 32px;
+		font-weight: 700;
+		margin-bottom: 8px;
+		background: linear-gradient(135deg, var(--text-color), var(--accent-color));
+		-webkit-background-clip: text;
+		background-clip: text;
+		-webkit-text-fill-color: transparent;
+	}
+
+	.subtitle {
+		font-size: 16px;
+		font-weight: 400;
+		margin-bottom: 12px;
+		color: var(--text-color);
+		opacity: 0.8;
+	}
+
+	.blog-nav {
+		margin-bottom: 20px;
+	}
+
+	.blog-nav a {
+		display: inline-block;
+		padding: 6px 20px;
+		border-radius: 8px;
+		border: 1px solid rgba(189, 147, 249, 0.3);
+		color: var(--accent-color);
+		font-size: 14px;
+		font-weight: 500;
+		letter-spacing: 0.5px;
+		text-decoration: none;
+		transition:
+			background 0.2s ease,
+			border-color 0.2s ease,
+			transform 0.2s ease;
+	}
+
+	.blog-nav a:hover {
+		background: rgba(189, 147, 249, 0.1);
+		border-color: var(--accent-color);
+		transform: translateY(-1px);
+		text-decoration: none;
+	}
+
+	.social-links {
+		display: flex;
+		justify-content: center;
+		gap: 25px;
+		margin-top: 5px;
+	}
+
+	.social-link {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		color: var(--text-color);
+		transition:
+			transform 0.2s ease,
+			color 0.2s ease;
+	}
+
+	.github-link,
+	.linkedin-link {
+		width: 32px;
+		height: 32px;
+	}
+
+	.email-link {
+		width: 36px;
+		height: 36px;
+	}
+
+	.resume-link {
+		width: 34px;
+		height: 34px;
+	}
+
+	.social-link:hover {
+		transform: translateY(-3px);
+		text-decoration: none;
+	}
+
+	.github-link:hover { color: var(--github-hover); }
+	.email-link:hover { color: var(--email-hover); }
+	.linkedin-link:hover { color: var(--linkedin-hover); }
+	.resume-link:hover { color: var(--resume-hover); }
+
+	.social-link svg {
+		width: 100%;
+		height: 100%;
+		fill: currentColor;
+	}
+</style>
+
+<script>
+	const card = document.getElementById("card")!;
+	const edgeLight = document.getElementById("edge-light")!;
+
+	document.addEventListener("mousemove", (e) => {
+		const rect = card.getBoundingClientRect();
+		const cardCenterX = rect.left + rect.width / 2;
+		const cardCenterY = rect.top + rect.height / 2;
+		const mouseX = e.clientX;
+		const mouseY = e.clientY;
+		const deltaX = mouseX - cardCenterX;
+		const deltaY = mouseY - cardCenterY;
+		const normalizedX = deltaX / (window.innerWidth / 2);
+		const normalizedY = deltaY / (window.innerHeight / 2);
+
+		const isMouseOverCard =
+			mouseX >= rect.left &&
+			mouseX <= rect.right &&
+			mouseY >= rect.top &&
+			mouseY <= rect.bottom;
+
+		if (isMouseOverCard) {
+			const tiltAmount = 20;
+			const tiltX = normalizedY * tiltAmount;
+			const tiltY = -normalizedX * tiltAmount;
+			card.style.transform = `perspective(1000px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) scale(1.02)`;
+			card.style.transition = "transform 0.2s ease";
+		} else {
+			card.style.transform = "perspective(1000px) rotateX(0) rotateY(0) scale(1)";
+		}
+
+		const cardX = ((mouseX - rect.left) / rect.width) * 100;
+		const cardY = ((mouseY - rect.top) / rect.height) * 100;
+		const dx = mouseX - cardCenterX;
+		const dy = mouseY - cardCenterY;
+		const distance = Math.sqrt(dx * dx + dy * dy);
+
+		card.style.setProperty("--x", `${cardX}%`);
+		card.style.setProperty("--y", `${cardY}%`);
+
+		const isNearCard = distance < rect.width / 2 + 100;
+		if (isNearCard) {
+			let edgeX: number, edgeY: number;
+
+			if (
+				mouseX >= rect.left &&
+				mouseX <= rect.right &&
+				mouseY >= rect.top &&
+				mouseY <= rect.bottom
+			) {
+				const distToLeft = mouseX - rect.left;
+				const distToRight = rect.right - mouseX;
+				const distToTop = mouseY - rect.top;
+				const distToBottom = rect.bottom - mouseY;
+				const minDist = Math.min(distToLeft, distToRight, distToTop, distToBottom);
+
+				if (minDist === distToLeft) edgeX = rect.left;
+				else if (minDist === distToRight) edgeX = rect.right;
+				else edgeX = mouseX;
+
+				if (minDist === distToTop) edgeY = rect.top;
+				else if (minDist === distToBottom) edgeY = rect.bottom;
+				else edgeY = mouseY;
+			} else {
+				edgeX = mouseX < rect.left ? rect.left : mouseX > rect.right ? rect.right : mouseX;
+				edgeY = mouseY < rect.top ? rect.top : mouseY > rect.bottom ? rect.bottom : mouseY;
+			}
+
+			const relEdgeX = ((edgeX - rect.left) / rect.width) * 100;
+			const relEdgeY = ((edgeY - rect.top) / rect.height) * 100;
+			const mouseToEdgeX = mouseX - edgeX;
+			const mouseToEdgeY = mouseY - edgeY;
+			const mouseToEdgeDist = Math.sqrt(mouseToEdgeX * mouseToEdgeX + mouseToEdgeY * mouseToEdgeY);
+			const gradientSize = 30;
+			const intensity = Math.max(0, 1 - mouseToEdgeDist / 100);
+
+			edgeLight.style.boxShadow = `0 0 20px 3px rgba(189, 147, 249, ${intensity * 0.5})`;
+			edgeLight.style.background = `radial-gradient(circle at ${relEdgeX}% ${relEdgeY}%, rgba(189, 147, 249, ${intensity * 0.3}) 0%, transparent ${gradientSize}%)`;
+		} else {
+			edgeLight.style.boxShadow = "none";
+			edgeLight.style.background = "none";
+		}
+	});
+
+	document.addEventListener("mouseleave", () => {
+		card.style.transform = "perspective(1000px) rotateX(0) rotateY(0) scale(1)";
+		card.style.transition = "transform 0.5s ease";
+		edgeLight.style.boxShadow = "none";
+		edgeLight.style.background = "none";
+	});
+</script>

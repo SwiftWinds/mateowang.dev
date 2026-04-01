@@ -1,0 +1,291 @@
+---
+import BaseLayout from "./BaseLayout.astro";
+import TableOfContents from "../components/TableOfContents.astro";
+import TagList from "../components/TagList.astro";
+
+interface Props {
+	title: string;
+	description: string;
+	pubDate: Date;
+	updatedDate?: Date;
+	tags: string[];
+	readingTime?: string;
+	headings: { depth: number; slug: string; text: string }[];
+}
+
+const { title, description, pubDate, updatedDate, tags, readingTime, headings } = Astro.props;
+
+const formattedDate = pubDate.toLocaleDateString("en-US", {
+	year: "numeric",
+	month: "long",
+	day: "numeric",
+});
+const formattedUpdated = updatedDate?.toLocaleDateString("en-US", {
+	year: "numeric",
+	month: "long",
+	day: "numeric",
+});
+---
+
+<BaseLayout title={`${title} — Mateo Wang`} description={description}>
+	<div class="blog-post-wrapper">
+		<nav class="breadcrumb">
+			<a href="/">Home</a>
+			<span class="sep">/</span>
+			<a href="/blog">Blog</a>
+			<span class="sep">/</span>
+			<span class="current">{title}</span>
+		</nav>
+
+		<div class="post-layout">
+			<article class="post-content">
+				<header class="post-header">
+					<h1 class="post-title">{title}</h1>
+					<div class="post-meta">
+						<time datetime={pubDate.toISOString()}>{formattedDate}</time>
+						{readingTime && <span class="reading-time">· {readingTime}</span>}
+					</div>
+					{
+						formattedUpdated && (
+							<div class="post-updated">Updated {formattedUpdated}</div>
+						)
+					}
+					{tags.length > 0 && <TagList tags={tags} />}
+				</header>
+
+				<div class="prose">
+					<slot />
+				</div>
+			</article>
+
+			{
+				headings.length > 0 && (
+					<aside class="toc-sidebar">
+						<TableOfContents headings={headings} />
+					</aside>
+				)
+			}
+		</div>
+	</div>
+</BaseLayout>
+
+<style>
+	.blog-post-wrapper {
+		position: relative;
+		z-index: 1;
+		max-width: 1100px;
+		margin: 0 auto;
+		padding: 2rem 1.5rem 4rem;
+	}
+
+	.breadcrumb {
+		margin-bottom: 2rem;
+		font-size: 0.875rem;
+		opacity: 0.7;
+	}
+
+	.breadcrumb a {
+		color: var(--accent-color);
+		text-decoration: none;
+	}
+
+	.breadcrumb a:hover {
+		text-decoration: underline;
+	}
+
+	.breadcrumb .sep {
+		margin: 0 0.5rem;
+		opacity: 0.5;
+	}
+
+	.breadcrumb .current {
+		opacity: 0.8;
+	}
+
+	.post-layout {
+		display: grid;
+		grid-template-columns: 1fr 220px;
+		gap: 3rem;
+		align-items: start;
+	}
+
+	.post-content {
+		min-width: 0;
+	}
+
+	.post-header {
+		margin-bottom: 2.5rem;
+		padding-bottom: 1.5rem;
+		border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+	}
+
+	.post-title {
+		font-size: 2.5rem;
+		font-weight: 700;
+		line-height: 1.2;
+		margin-bottom: 0.75rem;
+		background: linear-gradient(135deg, var(--text-color), var(--accent-color));
+		-webkit-background-clip: text;
+		background-clip: text;
+		-webkit-text-fill-color: transparent;
+	}
+
+	.post-meta {
+		font-size: 0.9rem;
+		opacity: 0.6;
+		margin-bottom: 0.25rem;
+	}
+
+	.reading-time {
+		margin-left: 0.25rem;
+	}
+
+	.post-updated {
+		font-size: 0.85rem;
+		opacity: 0.5;
+		font-style: italic;
+	}
+
+	.toc-sidebar {
+		position: sticky;
+		top: 2rem;
+	}
+
+	@media (max-width: 860px) {
+		.post-layout {
+			grid-template-columns: 1fr;
+		}
+
+		.toc-sidebar {
+			display: none;
+		}
+
+		.post-title {
+			font-size: 2rem;
+		}
+	}
+</style>
+
+<style is:global>
+	.prose {
+		line-height: 1.8;
+		font-size: 1.05rem;
+	}
+
+	.prose h2 {
+		font-size: 1.75rem;
+		font-weight: 700;
+		margin-top: 2.5rem;
+		margin-bottom: 1rem;
+		color: var(--text-color);
+	}
+
+	.prose h3 {
+		font-size: 1.35rem;
+		font-weight: 600;
+		margin-top: 2rem;
+		margin-bottom: 0.75rem;
+		color: var(--text-color);
+	}
+
+	.prose h4 {
+		font-size: 1.1rem;
+		font-weight: 600;
+		margin-top: 1.5rem;
+		margin-bottom: 0.5rem;
+		color: var(--text-color);
+	}
+
+	.prose p {
+		margin-bottom: 1.25rem;
+		opacity: 0.9;
+	}
+
+	.prose ul,
+	.prose ol {
+		margin-bottom: 1.25rem;
+		padding-left: 1.5rem;
+		opacity: 0.9;
+	}
+
+	.prose li {
+		margin-bottom: 0.4rem;
+	}
+
+	.prose blockquote {
+		border-left: 3px solid var(--accent-color);
+		padding: 0.75rem 1.25rem;
+		margin: 1.5rem 0;
+		background: rgba(189, 147, 249, 0.05);
+		border-radius: 0 8px 8px 0;
+		opacity: 0.9;
+	}
+
+	.prose blockquote p {
+		margin-bottom: 0;
+	}
+
+	.prose code {
+		background: rgba(189, 147, 249, 0.15);
+		padding: 0.15rem 0.4rem;
+		border-radius: 4px;
+		font-size: 0.9em;
+		font-family: "JetBrains Mono", "Fira Code", "Cascadia Code", monospace;
+	}
+
+	.prose pre {
+		border-radius: 12px;
+		padding: 1.25rem;
+		margin: 1.5rem 0;
+		overflow-x: auto;
+		border: 1px solid rgba(255, 255, 255, 0.08);
+	}
+
+	.prose pre code {
+		background: none;
+		padding: 0;
+		border-radius: 0;
+		font-size: 0.875rem;
+	}
+
+	.prose img {
+		max-width: 100%;
+		height: auto;
+		border-radius: 12px;
+		margin: 1.5rem 0;
+	}
+
+	.prose hr {
+		border: none;
+		border-top: 1px solid rgba(255, 255, 255, 0.1);
+		margin: 2rem 0;
+	}
+
+	.prose a {
+		color: var(--accent-color);
+		text-decoration: underline;
+		text-underline-offset: 2px;
+	}
+
+	.prose a:hover {
+		opacity: 0.8;
+	}
+
+	.prose table {
+		width: 100%;
+		border-collapse: collapse;
+		margin: 1.5rem 0;
+	}
+
+	.prose th,
+	.prose td {
+		padding: 0.75rem 1rem;
+		border: 1px solid rgba(255, 255, 255, 0.1);
+		text-align: left;
+	}
+
+	.prose th {
+		background: rgba(189, 147, 249, 0.1);
+		font-weight: 600;
+	}
+</style>

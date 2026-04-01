@@ -1,0 +1,95 @@
+---
+
+---
+
+<div class="search-wrapper">
+	<div class="search-box">
+		<svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+			<circle cx="11" cy="11" r="8"></circle>
+			<path d="m21 21-4.3-4.3"></path>
+		</svg>
+		<input
+			type="text"
+			id="search-input"
+			placeholder="Search posts..."
+			autocomplete="off"
+		/>
+	</div>
+	<div id="search-results" class="search-results"></div>
+</div>
+
+<style>
+	.search-wrapper {
+		position: relative;
+		margin-bottom: 2rem;
+	}
+
+	.search-box {
+		position: relative;
+		display: flex;
+		align-items: center;
+	}
+
+	.search-icon {
+		position: absolute;
+		left: 1rem;
+		width: 18px;
+		height: 18px;
+		opacity: 0.4;
+		pointer-events: none;
+	}
+
+	#search-input {
+		width: 100%;
+		padding: 0.75rem 1rem 0.75rem 2.75rem;
+		border-radius: 10px;
+		border: 1px solid var(--card-border);
+		background: var(--card-bg);
+		backdrop-filter: blur(10px);
+		-webkit-backdrop-filter: blur(10px);
+		color: var(--text-color);
+		font-size: 0.95rem;
+		font-family: inherit;
+		outline: none;
+		transition:
+			border-color 0.2s ease,
+			box-shadow 0.2s ease;
+	}
+
+	#search-input::placeholder {
+		opacity: 0.4;
+	}
+
+	#search-input:focus {
+		border-color: rgba(189, 147, 249, 0.4);
+		box-shadow: 0 0 0 3px rgba(189, 147, 249, 0.1);
+	}
+
+	.search-results {
+		margin-top: 0.5rem;
+	}
+
+	.search-results:empty {
+		display: none;
+	}
+</style>
+
+<script>
+	const input = document.getElementById("search-input") as HTMLInputElement;
+	const resultsContainer = document.getElementById("search-results")!;
+	const allCards = document.querySelectorAll("[data-search-card]");
+
+	input.addEventListener("input", () => {
+		const query = input.value.toLowerCase().trim();
+
+		allCards.forEach((card) => {
+			const el = card as HTMLElement;
+			const title = el.dataset.searchTitle?.toLowerCase() || "";
+			const description = el.dataset.searchDescription?.toLowerCase() || "";
+			const tags = el.dataset.searchTags?.toLowerCase() || "";
+
+			const matches = !query || title.includes(query) || description.includes(query) || tags.includes(query);
+			el.style.display = matches ? "" : "none";
+		});
+	});
+</script>

@@ -1,0 +1,166 @@
+---
+interface Props {
+	title: string;
+	description?: string;
+}
+
+const { title, description = "Mateo Wang — Software Developer & ML Engineer" } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta name="theme-color" content="#1f2024" />
+		<meta name="description" content={description} />
+		<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+		<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+		<link rel="manifest" href="/site.webmanifest" />
+		<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5" />
+		<title>{title}</title>
+	</head>
+	<body>
+		<div class="light"></div>
+		<div id="stars-container"></div>
+		<slot />
+		<script>
+			const starsContainer = document.getElementById("stars-container")!;
+			const numStars = 300;
+			const sizes = [1, 1, 2, 3, 4];
+
+			function randomPosition(min: number, max: number) {
+				return Math.floor(Math.random() * (max - min + 1)) + min;
+			}
+
+			for (let i = 0; i < numStars; i++) {
+				const top = randomPosition(1, 100);
+				const left = randomPosition(1, 100);
+				const random = Math.floor(Math.random() * sizes.length);
+				const randomSize = sizes[random];
+
+				const star = document.createElement("div");
+				star.classList.add("star");
+				star.style.position = "absolute";
+				star.style.top = `${top}%`;
+				star.style.left = `${left}%`;
+				star.style.height = `${randomSize}px`;
+				star.style.width = `${randomSize}px`;
+
+				if (i <= 50) star.classList.add("star1");
+				else if (i <= 100) star.classList.add("star2");
+				else if (i <= 150) star.classList.add("star3");
+				else if (i <= 200) star.classList.add("star4");
+				else if (i <= 250) star.classList.add("star5");
+				else star.classList.add("star6");
+
+				starsContainer.appendChild(star);
+			}
+		</script>
+	</body>
+</html>
+
+<style is:global>
+	:root {
+		--bg-color-dark: #1f2023;
+		--bg-color-light: #424472;
+		--card-bg: rgba(30, 25, 40, 0.4);
+		--text-color: #f8f8f2;
+		--accent-color: #bd93f9;
+		--card-border: rgba(255, 255, 255, 0.1);
+		--github-hover: #bd93f9;
+		--email-hover: #50fa7b;
+		--linkedin-hover: #0a66c2;
+		--resume-hover: #ffb86c;
+	}
+
+	* {
+		margin: 0;
+		padding: 0;
+		box-sizing: border-box;
+	}
+
+	body {
+		font-family:
+			"Inter",
+			-apple-system,
+			BlinkMacSystemFont,
+			"Segoe UI",
+			Roboto,
+			Oxygen,
+			Ubuntu,
+			Cantarell,
+			"Open Sans",
+			"Helvetica Neue",
+			sans-serif;
+		background-image: linear-gradient(var(--bg-color-dark), var(--bg-color-light));
+		color: var(--text-color);
+		min-height: 100vh;
+		position: relative;
+	}
+
+	.light {
+		height: 100%;
+		width: 100%;
+		position: fixed;
+		top: 0;
+		left: 0;
+		z-index: 0;
+		pointer-events: none;
+	}
+
+	.light::before {
+		content: "";
+		display: block;
+		position: absolute;
+		width: 120%;
+		height: 120%;
+		top: 40%;
+		left: -10%;
+		background: radial-gradient(
+			48.58% 48.58% at 49.96% 59.07%,
+			#927cff 0%,
+			rgba(142, 133, 190, 0.4) 43.23%,
+			rgba(59, 61, 70, 0) 100%
+		);
+	}
+
+	#stars-container {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		z-index: 0;
+		pointer-events: none;
+	}
+
+	.star {
+		position: absolute;
+		background-color: #ffffff;
+		border-radius: 50%;
+	}
+
+	.star1 { animation: 3s linear 1s infinite alternate twinkle; }
+	.star2 { animation: 4s linear 0s infinite alternate twinkle; }
+	.star3 { animation: 3.5s linear 0.5s infinite alternate twinkle; }
+	.star4 { animation: 1.25s linear 1.5s infinite alternate twinkle; }
+	.star5 { animation: 4s linear 2s infinite alternate twinkle; }
+	.star6 { animation: 2.5s linear 1s infinite alternate twinkle; }
+
+	@keyframes twinkle {
+		0% { opacity: 1; }
+		50% { opacity: 0; }
+		100% { opacity: 1; }
+	}
+
+	a {
+		color: var(--accent-color);
+		text-decoration: none;
+	}
+
+	a:hover {
+		text-decoration: underline;
+	}
+</style>
