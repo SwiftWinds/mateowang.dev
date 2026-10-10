@@ -17,7 +17,7 @@
 
 		body {
 			background-color: #f8cffc;
-			min-height: 100vh;
+			height: 100vh;
 			display: flex;
 			flex-direction: column;
 			align-items: center;
@@ -26,13 +26,23 @@
 			color: #fb5a28;
 		}
 
+		/* The area the squircle outlines: 3vh below the subtitle, 3vh above the
+		   footer (68px tall), 20vw in from each side */
+		.stage {
+			position: relative;
+			flex: 1;
+			min-height: 0;
+			width: 60vw;
+			margin: 3vh 0 calc(68px + 3vh);
+		}
+
 		.squircle {
-			position: fixed;
+			position: absolute;
 			inset: 0;
 			width: 100%;
 			height: 100%;
+			overflow: visible;
 			pointer-events: none;
-			z-index: -1;
 		}
 
 		.squircle path {
@@ -56,6 +66,55 @@
 			font-weight: 700;
 			text-align: center;
 		}
+		.trinkets {
+			position: fixed;
+			top: 0;
+			bottom: 0;
+			width: 20vw;
+			display: flex;
+			flex-direction: column;
+			justify-content: space-evenly;
+			align-items: center;
+			padding: 3vh 0;
+			pointer-events: none;
+		}
+
+		.trinkets-left {
+			left: 0;
+		}
+
+		.trinkets-right {
+			right: 0;
+		}
+
+		.trinkets img {
+			display: block;
+			width: auto;
+			height: auto;
+			max-width: 12vw;
+			max-height: 18vh;
+			animation: wiggle 0.5s steps(1) infinite;
+		}
+
+		/* Boiling-line wiggle: hop between three slightly different distortions */
+		@keyframes wiggle {
+			0% {
+				filter: url(#wiggle-1);
+			}
+			33% {
+				filter: url(#wiggle-2);
+			}
+			66% {
+				filter: url(#wiggle-3);
+			}
+		}
+
+		@media (prefers-reduced-motion: reduce) {
+			.trinkets img {
+				animation: none;
+			}
+		}
+
 		.footer {
 			position: fixed;
 			bottom: 0;
@@ -74,6 +133,38 @@
 			color: #fb5a28;
 		}
 
+		@media (max-width: 640px) {
+			body {
+				height: auto;
+				min-height: 100vh;
+			}
+
+			.stage {
+				flex: none;
+				width: 100%;
+				height: 60vh;
+				margin: 3vh 0;
+			}
+
+			.trinkets {
+				position: static;
+				width: 100%;
+				flex-direction: row;
+				padding: 0;
+				margin-top: 3vh;
+			}
+
+			.trinkets img {
+				max-width: 20vw;
+				max-height: 20vw;
+			}
+
+			.footer {
+				position: static;
+				margin-top: 3vh;
+			}
+		}
+
 		.footer-link svg {
 			width: 100%;
 			height: 100%;
@@ -83,7 +174,6 @@
 	</head>
 
 	<body>
-		<svg class="squircle" aria-hidden="true"><path id="squircle-path" /></svg>
 		<h1>
 			<svg class="wordmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3196 1140" role="img" aria-label="Mateo Wang">
 <g transform="translate(0.000000,1140.000000) scale(0.100000,-0.100000)"
@@ -756,6 +846,37 @@ l-107 0 -47 -49z"/>
 </svg>
 		</h1>
 		<p class="subtitle">Software Developer • ML Engineer</p>
+		<div class="stage">
+			<svg class="squircle" aria-hidden="true"><path id="squircle-path" /></svg>
+		</div>
+		<svg width="0" height="0" style="position: absolute" aria-hidden="true">
+			<defs>
+			<filter id="wiggle-1">
+				<feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="2" seed="3" />
+				<feDisplacementMap in="SourceGraphic" scale="2.5" />
+			</filter>
+			<filter id="wiggle-2">
+				<feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="2" seed="17" />
+				<feDisplacementMap in="SourceGraphic" scale="2.5" />
+			</filter>
+			<filter id="wiggle-3">
+				<feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="2" seed="42" />
+				<feDisplacementMap in="SourceGraphic" scale="2.5" />
+			</filter>
+			</defs>
+		</svg>
+		<div class="trinkets trinkets-left">
+			<img src="assets/trinketcloud.png" alt="">
+			<img src="assets/trinkettulip.png" alt="">
+			<img src="assets/trinketbuttonprojects.png" alt="Projects">
+			<img src="assets/tricketclaudecode.png" alt="">
+		</div>
+		<div class="trinkets trinkets-right">
+			<img src="assets/trinketmushroom.png" alt="">
+			<img src="assets/trinketbuttonaboutme.png" alt="About me">
+			<img src="assets/trinketstars.png" alt="">
+			<img src="assets/trinketbunny.png" alt="">
+		</div>
 		<footer class="footer">
 			<!-- GitHub Icon -->
 			<a
@@ -816,20 +937,17 @@ l-107 0 -47 -49z"/>
 		</footer>
 
 		<script>
-		// Hand-drawn squircle: 3vh below the subtitle, 3vh above the footer,
-		// 20vw in from the sides. The wobble is a fixed function of position
-		// along the outline, so it holds still and only reshapes on resize.
+		// Hand-drawn squircle around .stage. The wobble is a fixed function of
+		// position along the outline, so it holds still and only reshapes when
+		// the stage resizes.
+		const stage = document.querySelector(".stage");
 		const squirclePath = document.getElementById("squircle-path");
-		const subtitle = document.querySelector(".subtitle");
-		const footer = document.querySelector(".footer");
 
 		function drawSquircle() {
-			const vw = window.innerWidth;
-			const vh = window.innerHeight;
-			const x0 = vw * 0.2;
-			const y0 = subtitle.getBoundingClientRect().bottom + vh * 0.03;
-			const w = vw - 2 * x0;
-			const h = footer.getBoundingClientRect().top - vh * 0.03 - y0;
+			const x0 = 0;
+			const y0 = 0;
+			const w = stage.clientWidth;
+			const h = stage.clientHeight;
 			const r = Math.min(w, h) * 0.3;
 			const n = 4; // superellipse exponent for the corners
 
@@ -910,9 +1028,7 @@ l-107 0 -47 -49z"/>
 			squirclePath.setAttribute("d", d);
 		}
 
-		drawSquircle();
-		document.fonts.ready.then(drawSquircle);
-		window.addEventListener("resize", drawSquircle);
+		new ResizeObserver(drawSquircle).observe(stage);
 		</script>
 	</body>
 </html>
