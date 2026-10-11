@@ -180,6 +180,13 @@
 			cursor: pointer;
 		}
 
+		/* The button trinkets are links; the anchor hugs its drawing so the
+		   column keeps spacing them the way it does the plain trinkets */
+		.trinkets a {
+			display: flex;
+			pointer-events: auto;
+		}
+
 		.trinkets img.button:hover {
 			animation-name: wiggle-cyan;
 		}
@@ -929,15 +936,15 @@ l-107 0 -47 -49z"/>
 			<defs>
 			<filter id="wiggle-1" x="-20%" y="-20%" width="140%" height="140%">
 				<feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="2" seed="3" />
-				<feDisplacementMap in="SourceGraphic" scale="2.5" />
+				<feDisplacementMap in="SourceGraphic" scale="5" />
 			</filter>
 			<filter id="wiggle-2" x="-20%" y="-20%" width="140%" height="140%">
 				<feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="2" seed="17" />
-				<feDisplacementMap in="SourceGraphic" scale="2.5" />
+				<feDisplacementMap in="SourceGraphic" scale="5" />
 			</filter>
 			<filter id="wiggle-3" x="-20%" y="-20%" width="140%" height="140%">
 				<feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="2" seed="42" />
-				<feDisplacementMap in="SourceGraphic" scale="2.5" />
+				<feDisplacementMap in="SourceGraphic" scale="5" />
 			</filter>
 			<!-- Recolors the orange buttons (#fb5a28) to dark cyan (#008b8b) while
 			     keeping their white lettering white: each channel is a straight
@@ -964,16 +971,22 @@ l-107 0 -47 -49z"/>
 		<div class="trinkets trinkets-left">
 			<img src="assets/trinkettulip.png" alt="">
 			<img class="cutout" src="assets/cutouttomato.png" alt="Tomato">
-			<img class="button" src="assets/trinketbuttonblog.png" alt="Blog">
+			<a href="blog.html">
+				<img class="button" src="assets/trinketbuttonblog.png" alt="Blog">
+			</a>
 			<img class="cutout" src="assets/cutoutspiral.png" alt="Spiral">
-			<img class="button" src="assets/trinketbuttonprojects.png" alt="Projects">
+			<a href="projects.html">
+				<img class="button" src="assets/trinketbuttonprojects.png" alt="Projects">
+			</a>
 			<img class="cutout" src="assets/cutoutsun.png" alt="Sun">
 			<img src="assets/tricketclaudecode.png" alt="">
 		</div>
 		<div class="trinkets trinkets-right">
 			<img src="assets/trinketmushroom.png" alt="">
 			<img class="cutout" src="assets/cutoutflower.png" alt="Flower">
-			<img class="button" src="assets/trinketbuttonaboutme.png" alt="About me">
+			<a href="about.html">
+				<img class="button" src="assets/trinketbuttonaboutme.png" alt="About me">
+			</a>
 			<img class="cutout" src="assets/cutoutbird.png" alt="Bird">
 			<img src="assets/trinketstars.png" alt="">
 			<img class="cutout" src="assets/cutoutchicken.png" alt="Chicken">
