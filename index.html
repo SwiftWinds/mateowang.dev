@@ -41,11 +41,12 @@
 			inset: 0;
 			width: 100%;
 			height: 100%;
+			z-index: 3;
 			overflow: visible;
 			pointer-events: none;
 		}
 
-		.squircle path {
+		.squircle > path {
 			fill: none;
 			stroke: #fb5a28;
 			stroke-width: 4;
@@ -93,6 +94,54 @@
 			height: auto;
 			max-width: 12vw;
 			max-height: 18vh;
+			animation: wiggle 0.5s steps(1) infinite;
+		}
+
+		.trinkets img.cutout {
+			max-width: 8vw;
+			max-height: 12vh;
+		}
+
+		.cutouts {
+			position: absolute;
+			top: 5%;
+			bottom: 5%;
+			width: 15%;
+			z-index: 4;
+			display: flex;
+			flex-direction: column;
+			justify-content: space-around;
+			align-items: center;
+			pointer-events: none;
+		}
+
+		.cutouts-left {
+			left: 3%;
+		}
+
+		.cutouts-right {
+			right: 3%;
+		}
+
+		.temp-filler {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			z-index: 1;
+			width: 100%;
+			height: 100%;
+			border-radius: 30%;
+			transform: translate(-50%, -50%);
+			object-fit: cover;
+			pointer-events: none;
+		}
+
+		.cutouts img {
+			display: block;
+			width: auto;
+			height: auto;
+			max-width: 100%;
+			max-height: 20%;
 			animation: wiggle 0.5s steps(1) infinite;
 		}
 
@@ -155,8 +204,29 @@
 			}
 
 			.trinkets img {
-				max-width: 20vw;
-				max-height: 20vw;
+				max-width: 17vw;
+				max-height: 17vw;
+			}
+
+			.trinkets img.cutout {
+				max-width: 7vw;
+				max-height: 7vw;
+			}
+
+			.cutouts {
+				top: 4%;
+				bottom: 4%;
+				width: 18%;
+			}
+
+			.cutouts img {
+				max-width: 70%;
+				max-height: 18vw;
+			}
+
+			.temp-filler {
+				width: 35%;
+				max-height: 35%;
 			}
 
 			.footer {
@@ -848,6 +918,17 @@ l-107 0 -47 -49z"/>
 		<p class="subtitle">Software Developer • ML Engineer</p>
 		<div class="stage">
 			<svg class="squircle" aria-hidden="true"><path id="squircle-path" /></svg>
+			<img class="temp-filler" src="assets/temp filler.png" alt="">
+			<div class="cutouts cutouts-left">
+				<img src="assets/cutouttomato.png" alt="Tomato">
+				<img src="assets/cutoutspiral.png" alt="Spiral">
+				<img src="assets/cutoutsun.png" alt="Sun">
+			</div>
+			<div class="cutouts cutouts-right">
+				<img src="assets/cutoutflower.png" alt="Flower">
+				<img src="assets/cutoutbird.png" alt="Bird">
+				<img src="assets/cutoutchicken.png" alt="Chicken">
+			</div>
 		</div>
 		<svg width="0" height="0" style="position: absolute" aria-hidden="true">
 			<defs>
@@ -867,14 +948,20 @@ l-107 0 -47 -49z"/>
 		</svg>
 		<div class="trinkets trinkets-left">
 			<img src="assets/trinketcloud.png" alt="">
+			<img class="cutout" src="assets/cutouttomato.png" alt="Tomato">
 			<img src="assets/trinkettulip.png" alt="">
+			<img class="cutout" src="assets/cutoutspiral.png" alt="Spiral">
 			<img src="assets/trinketbuttonprojects.png" alt="Projects">
+			<img class="cutout" src="assets/cutoutsun.png" alt="Sun">
 			<img src="assets/tricketclaudecode.png" alt="">
 		</div>
 		<div class="trinkets trinkets-right">
 			<img src="assets/trinketmushroom.png" alt="">
+			<img class="cutout" src="assets/cutoutflower.png" alt="Flower">
 			<img src="assets/trinketbuttonaboutme.png" alt="About me">
+			<img class="cutout" src="assets/cutoutbird.png" alt="Bird">
 			<img src="assets/trinketstars.png" alt="">
+			<img class="cutout" src="assets/cutoutchicken.png" alt="Chicken">
 			<img src="assets/trinketbunny.png" alt="">
 		</div>
 		<footer class="footer">
@@ -1014,17 +1101,21 @@ l-107 0 -47 -49z"/>
 				points.push([px + nx * off, py + ny * off]);
 			}
 
-			// Catmull-Rom through the points, as cubic Beziers
-			let d = `M${points[0][0].toFixed(1)},${points[0][1].toFixed(1)}`;
-			for (let i = 0; i < points.length - 1; i++) {
-				const p0 = points[Math.max(0, i - 1)];
-				const p1 = points[i];
-				const p2 = points[i + 1];
-				const p3 = points[Math.min(points.length - 1, i + 2)];
-				const c1 = [p1[0] + (p2[0] - p0[0]) / 6, p1[1] + (p2[1] - p0[1]) / 6];
-				const c2 = [p2[0] - (p3[0] - p1[0]) / 6, p2[1] - (p3[1] - p1[1]) / 6];
-				d += `C${c1[0].toFixed(1)},${c1[1].toFixed(1)} ${c2[0].toFixed(1)},${c2[1].toFixed(1)} ${p2[0].toFixed(1)},${p2[1].toFixed(1)}`;
-			}
+			// Catmull-Rom through the points, as cubic Beziers.
+			const pathFromPoints = (pathPoints) => {
+				let pathD = `M${pathPoints[0][0].toFixed(1)},${pathPoints[0][1].toFixed(1)}`;
+				for (let i = 0; i < pathPoints.length - 1; i++) {
+					const p0 = pathPoints[Math.max(0, i - 1)];
+					const p1 = pathPoints[i];
+					const p2 = pathPoints[i + 1];
+					const p3 = pathPoints[Math.min(pathPoints.length - 1, i + 2)];
+					const c1 = [p1[0] + (p2[0] - p0[0]) / 6, p1[1] + (p2[1] - p0[1]) / 6];
+					const c2 = [p2[0] - (p3[0] - p1[0]) / 6, p2[1] - (p3[1] - p1[1]) / 6];
+					pathD += `C${c1[0].toFixed(1)},${c1[1].toFixed(1)} ${c2[0].toFixed(1)},${c2[1].toFixed(1)} ${p2[0].toFixed(1)},${p2[1].toFixed(1)}`;
+				}
+				return pathD;
+			};
+			const d = pathFromPoints(points);
 			squirclePath.setAttribute("d", d);
 		}
 
