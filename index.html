@@ -15,6 +15,12 @@
 			box-sizing: border-box;
 		}
 
+		:root {
+			/* Width of each trinket column. It stops shrinking at 120px, and the
+			   squircle gives up the space instead so the trinkets stay visible. */
+			--side: max(20vw, 120px);
+		}
+
 		body {
 			background-color: #f8cffc;
 			height: 100vh;
@@ -27,13 +33,13 @@
 		}
 
 		/* The area the squircle outlines: 3vh below the subtitle, 3vh above the
-		   footer (68px tall), 20vw in from each side */
+		   footer (88px tall), 20vw in from each side */
 		.stage {
 			position: relative;
 			flex: 1;
 			min-height: 0;
-			width: 60vw;
-			margin: 3vh 0 calc(68px + 3vh);
+			width: calc(100vw - var(--side) * 2);
+			margin: 3vh 0 calc(88px + 3vh);
 		}
 
 		.squircle {
@@ -71,7 +77,7 @@
 			position: fixed;
 			top: 0;
 			bottom: 0;
-			width: 20vw;
+			width: var(--side);
 			display: flex;
 			flex-direction: column;
 			justify-content: space-evenly;
@@ -92,14 +98,19 @@
 			display: block;
 			width: auto;
 			height: auto;
-			max-width: 12vw;
-			max-height: 18vh;
+			max-width: calc(var(--side) * 0.5);
+			max-height: 14vh;
 			animation: wiggle 0.5s steps(1) infinite;
 		}
 
 		.trinkets img.cutout {
-			max-width: 8vw;
-			max-height: 12vh;
+			max-width: calc(var(--side) * 0.325);
+			max-height: 10vh;
+		}
+
+		.trinkets img.button {
+			max-width: calc(var(--side) * 0.75);
+			max-height: 22vh;
 		}
 
 		.cutouts {
@@ -123,25 +134,29 @@
 			right: 3%;
 		}
 
+		/* Fills the stage; drawSquircle() clips it to the squiggle's outline so
+		   the stroke on top reads as its border */
 		.temp-filler {
+			/* Bleeds past the stage so there's image under the line where its
+			   wobble swings outside the box; keep in sync with FILLER_BLEED */
 			position: absolute;
-			top: 50%;
-			left: 50%;
+			inset: -32px;
 			z-index: 1;
-			width: 100%;
-			height: 100%;
-			border-radius: 30%;
-			transform: translate(-50%, -50%);
+			width: calc(100% + 64px);
+			height: calc(100% + 64px);
 			object-fit: cover;
 			pointer-events: none;
 		}
 
+		/* Only placeholders for where the holes go: updateCutouts() punches
+		   their shapes out of the filler and hands the pieces to the sides */
 		.cutouts img {
+			visibility: hidden;
 			display: block;
 			width: auto;
 			height: auto;
-			max-width: 100%;
-			max-height: 20%;
+			max-width: 85%;
+			max-height: 17%;
 			animation: wiggle 0.5s steps(1) infinite;
 		}
 
@@ -158,9 +173,37 @@
 			}
 		}
 
+		/* Projects / About me turn dark cyan on hover and grow an outline;
+		   same wiggle, recolored */
+		.trinkets img.button {
+			pointer-events: auto;
+			cursor: pointer;
+		}
+
+		.trinkets img.button:hover {
+			animation-name: wiggle-cyan;
+		}
+
+		@keyframes wiggle-cyan {
+			0% {
+				filter: url(#to-cyan) url(#button-outline) url(#wiggle-1);
+			}
+			33% {
+				filter: url(#to-cyan) url(#button-outline) url(#wiggle-2);
+			}
+			66% {
+				filter: url(#to-cyan) url(#button-outline) url(#wiggle-3);
+			}
+		}
+
 		@media (prefers-reduced-motion: reduce) {
 			.trinkets img {
 				animation: none;
+			}
+
+			.trinkets img.button:hover {
+				animation: none;
+				filter: url(#to-cyan) url(#button-outline);
 			}
 		}
 
@@ -176,23 +219,37 @@
 		}
 
 		.footer-link {
-			display: block;
-			width: 28px;
-			height: 28px;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			gap: 4px;
 			color: #fb5a28;
+			font-size: 12px;
+			font-weight: 700;
+			text-decoration: none;
+		}
+
+		.footer-link:hover {
+			color: #008b8b;
+		}
+
+		.footer-link:hover .footer-label {
+			text-decoration: underline;
 		}
 
 		@media (max-width: 640px) {
+			/* Everything fits on one screen; the squircle takes whatever height
+			   is left after the trinket rows and footer */
 			body {
-				height: auto;
-				min-height: 100vh;
+				height: 100vh;
+				height: 100dvh;
+				padding-top: 24px;
 			}
 
 			.stage {
-				flex: none;
 				width: 100%;
-				height: 60vh;
-				margin: 3vh 0;
+				min-height: 120px;
+				margin: 2vh 0;
 			}
 
 			.trinkets {
@@ -200,17 +257,22 @@
 				width: 100%;
 				flex-direction: row;
 				padding: 0;
-				margin-top: 3vh;
+				margin-top: 1vh;
 			}
 
 			.trinkets img {
-				max-width: 17vw;
-				max-height: 17vw;
+				max-width: 14vw;
+				max-height: 14vw;
 			}
 
 			.trinkets img.cutout {
-				max-width: 7vw;
-				max-height: 7vw;
+				max-width: 6vw;
+				max-height: 6vw;
+			}
+
+			.trinkets img.button {
+				max-width: 21vw;
+				max-height: 21vw;
 			}
 
 			.cutouts {
@@ -220,24 +282,20 @@
 			}
 
 			.cutouts img {
-				max-width: 70%;
-				max-height: 18vw;
-			}
-
-			.temp-filler {
-				width: 35%;
-				max-height: 35%;
+				max-width: 60%;
+				max-height: 15vw;
 			}
 
 			.footer {
 				position: static;
-				margin-top: 3vh;
+				margin-top: 1vh;
+				padding: 12px 16px;
 			}
 		}
 
 		.footer-link svg {
-			width: 100%;
-			height: 100%;
+			width: 28px;
+			height: 28px;
 			fill: currentColor;
 		}
 		</style>
@@ -629,70 +687,7 @@ c-87 -86 -90 -91 -90 -134 0 -35 -5 -48 -20 -56 -16 -8 -20 -21 -20 -60 0 -39
 13 7 20 21 20 40 0 19 7 33 20 40 16 8 20 21 20 60 0 39 4 52 20 60 19 10 20
 21 20 160 0 139 -1 150 -20 160 -12 6 -20 21 -20 36 0 33 -51 84 -84 84 -15 0
 -30 8 -36 20 -7 13 -21 20 -40 20 -19 0 -33 7 -40 20 -10 19 -21 20 -320 20
--299 0 -310 -1 -320 -20z m158 -637 c3 -44 0 -53 -17 -63 -14 -7 -21 -21 -21
--40 0 -19 -7 -33 -20 -40 -13 -7 -20 -21 -20 -40 0 -19 -7 -33 -20 -40 -16 -8
--20 -21 -20 -60 0 -39 -4 -52 -20 -60 -16 -8 -20 -21 -20 -60 0 -39 -4 -52
--20 -60 -16 -8 -20 -21 -20 -60 0 -39 -4 -52 -20 -60 -16 -8 -20 -21 -20 -60
-0 -39 -4 -52 -20 -60 -12 -7 -20 -21 -20 -38 0 -19 -12 -37 -40 -62 -28 -25
--40 -43 -40 -62 0 -17 -8 -31 -20 -38 -13 -7 -20 -21 -20 -40 0 -19 -7 -33
--20 -40 -13 -7 -20 -21 -20 -40 0 -19 -7 -33 -20 -40 -13 -7 -20 -21 -20 -40
-0 -19 -7 -33 -20 -40 -12 -7 -20 -21 -20 -38 0 -19 -12 -37 -40 -62 -26 -23
--40 -44 -40 -60 0 -16 -14 -37 -40 -60 -25 -22 -40 -44 -40 -59 0 -15 -20 -43
--60 -81 -43 -41 -60 -65 -60 -84 0 -15 -8 -30 -20 -36 -13 -7 -20 -21 -20 -40
-0 -19 -7 -33 -20 -40 -19 -10 -20 -21 -20 -180 0 -159 1 -170 20 -180 13 -7
-20 -21 20 -40 0 -19 7 -33 20 -40 16 -8 20 -21 20 -60 0 -39 4 -52 20 -60 13
--7 20 -21 20 -40 0 -19 7 -33 20 -40 12 -7 20 -21 20 -38 0 -19 12 -37 40 -62
-36 -31 40 -40 40 -82 0 -37 4 -50 20 -58 13 -7 20 -21 20 -40 0 -19 7 -33 20
--40 13 -7 20 -21 20 -40 0 -19 7 -33 20 -40 16 -8 20 -21 20 -60 0 -39 4 -52
-20 -60 13 -7 20 -21 20 -40 0 -19 7 -33 20 -40 16 -8 20 -21 20 -60 0 -39 4
--52 20 -60 13 -7 20 -21 20 -40 0 -19 7 -33 20 -40 16 -8 20 -21 20 -60 0 -39
-4 -52 20 -60 16 -8 20 -21 20 -60 0 -39 4 -52 20 -60 13 -7 20 -21 20 -40 0
--19 7 -33 20 -40 17 -9 20 -21 20 -80 0 -59 3 -71 20 -80 16 -8 20 -21 20 -60
-0 -39 4 -52 20 -60 17 -9 20 -21 20 -80 0 -59 3 -71 20 -80 17 -9 20 -21 20
--80 0 -59 3 -71 20 -80 16 -8 20 -21 20 -60 0 -39 4 -52 20 -60 18 -9 20 -21
-20 -100 0 -79 2 -91 20 -100 29 -16 25 -56 -9 -91 -35 -34 -75 -38 -91 -9 -9
-18 -21 20 -100 20 -79 0 -91 2 -100 20 -8 16 -21 20 -58 20 -42 0 -51 4 -82
-40 -25 28 -43 40 -62 40 -17 0 -31 8 -38 20 -7 12 -21 20 -38 20 -19 0 -37 12
--62 40 -22 25 -44 40 -58 40 -16 0 -54 31 -122 100 -63 64 -106 100 -120 100
--14 0 -68 48 -160 140 -93 94 -146 140 -161 140 -13 0 -43 23 -79 60 -38 40
--66 60 -81 60 -15 0 -37 15 -59 40 -22 25 -44 40 -59 40 -15 0 -43 20 -81 60
--38 40 -66 60 -81 60 -15 0 -37 15 -59 40 -22 25 -44 40 -58 40 -16 0 -59 36
--142 120 -83 84 -126 120 -142 120 -14 0 -36 15 -58 40 -25 28 -43 40 -62 40
--17 0 -31 8 -38 20 -7 13 -21 20 -40 20 -19 0 -33 7 -40 20 -10 19 -21 20
--160 20 -139 0 -150 -1 -160 -20 -6 -12 -21 -20 -36 -20 -35 0 -244 -209 -244
--244 0 -15 -8 -30 -20 -36 -12 -7 -20 -21 -20 -38 0 -19 -12 -37 -40 -62 -25
--22 -40 -44 -40 -58 0 -16 -41 -64 -140 -162 -90 -89 -140 -146 -140 -160 0
--28 -492 -520 -521 -520 -13 0 -50 -30 -99 -80 -51 -52 -86 -80 -100 -80 -14
-0 -44 -22 -80 -60 -38 -40 -66 -60 -81 -60 -15 0 -37 -15 -59 -40 -23 -26 -43
--40 -60 -40 -17 0 -36 -13 -59 -40 -59 -70 -61 -65 -61 175 0 204 1 215 20
-225 18 10 20 21 20 140 0 119 2 130 20 140 18 9 20 21 20 100 0 79 2 91 20
-100 17 9 20 21 20 80 0 59 3 71 20 80 17 9 20 21 20 80 0 59 3 71 20 80 17 9
-20 21 20 80 0 59 3 71 20 80 13 7 20 21 20 40 0 19 7 33 20 40 16 8 20 21 20
-60 0 39 4 52 20 60 13 7 20 21 20 40 0 19 7 33 20 40 13 7 20 21 20 40 0 19 7
-33 20 40 16 8 20 21 20 60 0 39 4 52 20 60 13 7 20 21 20 40 0 19 7 33 20 40
-13 7 20 21 20 40 0 19 7 33 20 40 13 7 20 21 20 40 0 19 7 33 20 40 13 7 20
-21 20 40 0 19 7 33 20 40 16 8 20 21 20 60 0 39 4 52 20 60 13 7 20 21 20 40
-0 19 7 33 20 40 13 7 20 21 20 40 0 19 7 33 20 40 16 8 20 21 20 60 0 39 4 52
-20 60 16 8 20 21 20 60 0 39 4 52 20 60 13 7 20 21 20 40 0 19 -7 33 -20 40
--15 8 -20 21 -20 56 0 43 -3 48 -90 134 -65 65 -96 90 -114 90 -15 0 -30 8
--36 20 -7 13 -21 20 -40 20 -19 0 -33 7 -40 20 -8 16 -21 20 -60 20 -39 0 -52
-4 -60 20 -7 12 -21 20 -38 20 -19 0 -37 12 -62 40 -25 28 -43 40 -62 40 -17 0
--31 8 -38 20 -7 13 -21 20 -40 20 -19 0 -33 7 -40 20 -7 13 -21 20 -40 20 -19
-0 -33 7 -40 20 -7 13 -21 20 -40 20 -19 0 -33 7 -40 20 -7 12 -21 20 -37 20
--18 0 -38 13 -62 39 -23 25 -47 40 -66 43 -29 3 -30 4 -30 58 l0 55 52 3 c40
-2 55 8 63 23 8 15 21 19 60 19 39 0 52 4 60 20 7 13 21 20 40 20 19 0 33 7 40
-20 8 16 21 20 60 20 39 0 52 4 60 20 8 16 21 20 60 20 39 0 52 4 60 20 8 16
-21 20 60 20 39 0 52 4 60 20 9 17 21 20 80 20 59 0 71 3 80 20 7 13 21 20 40
-20 19 0 33 7 40 20 8 16 21 20 60 20 39 0 52 4 60 20 9 17 21 20 80 20 59 0
-71 3 80 20 9 17 21 20 80 20 59 0 71 3 80 20 8 16 21 20 60 20 39 0 52 4 60
-20 9 18 21 20 100 20 79 0 91 2 100 20 9 18 21 20 100 20 79 0 91 2 100 20 9
-17 21 20 80 20 59 0 71 3 80 20 10 18 21 20 120 20 99 0 110 2 120 20 10 18
-21 20 120 20 99 0 110 2 120 20 10 18 21 20 120 20 99 0 110 2 120 20 9 18 21
-20 100 20 79 0 91 2 100 20 9 18 21 20 100 20 79 0 91 2 100 20 9 17 21 20 80
-20 59 0 71 3 80 20 9 17 21 20 80 20 59 0 71 3 80 20 8 16 21 20 60 20 39 0
-52 4 60 20 9 17 21 20 80 20 59 0 71 3 80 20 9 17 21 20 80 20 59 0 71 3 80
-20 9 17 21 20 80 20 59 0 71 3 80 20 9 17 21 20 80 20 59 0 71 3 80 20 10 18
-21 20 120 20 100 0 110 2 120 20 10 19 19 20 163 18 l152 -3 3 -52z"/>
+-299 0 -310 -1 -320 -20z"/>
 <path d="M17520 4940 c-8 -16 -21 -20 -60 -20 -39 0 -52 -4 -60 -20 -7 -13
 -21 -20 -40 -20 -19 0 -33 -7 -40 -20 -7 -13 -21 -20 -40 -20 -19 0 -33 -7
 -40 -20 -6 -12 -21 -20 -36 -20 -19 0 -43 -17 -84 -60 -35 -36 -66 -60 -79
@@ -932,33 +927,53 @@ l-107 0 -47 -49z"/>
 		</div>
 		<svg width="0" height="0" style="position: absolute" aria-hidden="true">
 			<defs>
-			<filter id="wiggle-1">
+			<filter id="wiggle-1" x="-20%" y="-20%" width="140%" height="140%">
 				<feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="2" seed="3" />
 				<feDisplacementMap in="SourceGraphic" scale="2.5" />
 			</filter>
-			<filter id="wiggle-2">
+			<filter id="wiggle-2" x="-20%" y="-20%" width="140%" height="140%">
 				<feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="2" seed="17" />
 				<feDisplacementMap in="SourceGraphic" scale="2.5" />
 			</filter>
-			<filter id="wiggle-3">
+			<filter id="wiggle-3" x="-20%" y="-20%" width="140%" height="140%">
 				<feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="2" seed="42" />
 				<feDisplacementMap in="SourceGraphic" scale="2.5" />
+			</filter>
+			<!-- Recolors the orange buttons (#fb5a28) to dark cyan (#008b8b) while
+			     keeping their white lettering white: each channel is a straight
+			     line through green, which is 0.353 on the orange and 1 on white -->
+			<filter id="to-cyan" color-interpolation-filters="sRGB">
+				<feColorMatrix type="matrix" values="0 1.546 0 0 -0.546  0 0.703 0 0 0.297  0 0.703 0 0 0.297  0 0 0 1 0" />
+			</filter>
+			<!-- Hover outline for the buttons: a ring that follows the shape with a
+			     small gap (dilate 9px minus dilate 6px); the wiggle filters chained
+			     after it make it boil along with the button -->
+			<filter id="button-outline" x="-20%" y="-20%" width="140%" height="140%" color-interpolation-filters="sRGB">
+				<feMorphology in="SourceAlpha" operator="dilate" radius="9" result="outer" />
+				<feMorphology in="SourceAlpha" operator="dilate" radius="6" result="inner" />
+				<feComposite in="outer" in2="inner" operator="out" result="ring" />
+				<feFlood flood-color="#008b8b" />
+				<feComposite in2="ring" operator="in" result="colored" />
+				<feMerge>
+					<feMergeNode in="colored" />
+					<feMergeNode in="SourceGraphic" />
+				</feMerge>
 			</filter>
 			</defs>
 		</svg>
 		<div class="trinkets trinkets-left">
-			<img src="assets/trinketcloud.png" alt="">
-			<img class="cutout" src="assets/cutouttomato.png" alt="Tomato">
 			<img src="assets/trinkettulip.png" alt="">
+			<img class="cutout" src="assets/cutouttomato.png" alt="Tomato">
+			<img class="button" src="assets/trinketbuttonblog.png" alt="Blog">
 			<img class="cutout" src="assets/cutoutspiral.png" alt="Spiral">
-			<img src="assets/trinketbuttonprojects.png" alt="Projects">
+			<img class="button" src="assets/trinketbuttonprojects.png" alt="Projects">
 			<img class="cutout" src="assets/cutoutsun.png" alt="Sun">
 			<img src="assets/tricketclaudecode.png" alt="">
 		</div>
 		<div class="trinkets trinkets-right">
 			<img src="assets/trinketmushroom.png" alt="">
 			<img class="cutout" src="assets/cutoutflower.png" alt="Flower">
-			<img src="assets/trinketbuttonaboutme.png" alt="About me">
+			<img class="button" src="assets/trinketbuttonaboutme.png" alt="About me">
 			<img class="cutout" src="assets/cutoutbird.png" alt="Bird">
 			<img src="assets/trinketstars.png" alt="">
 			<img class="cutout" src="assets/cutoutchicken.png" alt="Chicken">
@@ -978,6 +993,7 @@ l-107 0 -47 -49z"/>
 						d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"
 					/>
 				</svg>
+				<span class="footer-label">GitHub</span>
 			</a>
 
 			<!-- Email Icon -->
@@ -991,6 +1007,7 @@ l-107 0 -47 -49z"/>
 						d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"
 					/>
 				</svg>
+				<span class="footer-label">Email</span>
 			</a>
 
 			<!-- LinkedIn Icon -->
@@ -1006,6 +1023,7 @@ l-107 0 -47 -49z"/>
 						d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"
 					/>
 				</svg>
+				<span class="footer-label">LinkedIn</span>
 			</a>
 
 			<!-- Resume Icon -->
@@ -1020,15 +1038,20 @@ l-107 0 -47 -49z"/>
 						d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"
 					/>
 				</svg>
+				<span class="footer-label">Resume</span>
 			</a>
 		</footer>
 
 		<script>
-		// Hand-drawn squircle around .stage. The wobble is a fixed function of
-		// position along the outline, so it holds still and only reshapes when
-		// the stage resizes.
+		// Hand-drawn squircle around .stage. The wobble is a function of
+		// position along the outline, shifted by wavePhase so the waves creep
+		// clockwise around it (see the loop below).
 		const stage = document.querySelector(".stage");
 		const squirclePath = document.getElementById("squircle-path");
+		const filler = document.querySelector(".temp-filler");
+		const FILLER_BLEED = 32; // px the filler extends past the stage on each side
+
+		let wavePhase = 0;
 
 		function drawSquircle() {
 			const x0 = 0;
@@ -1078,12 +1101,17 @@ l-107 0 -47 -49z"/>
 				return [ax + (bx - ax) * t, ay + (by - ay) * t];
 			};
 
-			const wobble = (t) =>
-				4.5 * Math.sin(2 * Math.PI * 2 * t + 0.7) +
-				3.2 * Math.sin(2 * Math.PI * 5 * t + 2.1) +
-				2.2 * Math.sin(2 * Math.PI * 9 * t + 4.4) +
-				1.4 * Math.sin(2 * Math.PI * 17 * t + 1.3) +
-				0.8 * Math.sin(2 * Math.PI * 29 * t + 5.2);
+			// t increases clockwise, so subtracting the phase moves waves clockwise
+			const wobble = (u) => {
+				const t = u - wavePhase;
+				return (
+					4.5 * Math.sin(2 * Math.PI * 2 * t + 0.7) +
+					3.2 * Math.sin(2 * Math.PI * 5 * t + 2.1) +
+					2.2 * Math.sin(2 * Math.PI * 9 * t + 4.4) +
+					1.4 * Math.sin(2 * Math.PI * 17 * t + 1.3) +
+					0.8 * Math.sin(2 * Math.PI * 29 * t + 5.2)
+				);
+			};
 
 			// Sample a little past the start so the line overlaps itself, drifting
 			// outward as it goes, like a pen that doesn't land where it began
@@ -1117,9 +1145,103 @@ l-107 0 -47 -49z"/>
 			};
 			const d = pathFromPoints(points);
 			squirclePath.setAttribute("d", d);
+
+			// Clip the filler to the last full lap of the same line, so where the
+			// pen overlaps itself the fill reaches the outer (drifted) stroke
+			const clipPoints = points
+				.slice(points.length - count - 1)
+				.map(([x, y]) => [x + FILLER_BLEED, y + FILLER_BLEED]);
+			const clipD = `${pathFromPoints(clipPoints)}Z`;
+			filler.style.clipPath = `path("${clipD}")`;
 		}
 
-		new ResizeObserver(drawSquircle).observe(stage);
+		// The stage cutouts are cut out of the filler: each shape becomes a
+		// hole in it, and the matching side cutout shows the piece that was
+		// removed. Holes are a CSS mask; pieces are drawn on a canvas from the
+		// same pixels the hole took out.
+		const holes = [...document.querySelectorAll(".cutouts img")];
+		const pieces = [...document.querySelectorAll(".trinkets img.cutout")];
+		for (const piece of pieces) piece.dataset.shape = piece.getAttribute("src");
+		const PIECE_SIZE = 600; // canvas px; matches the square cutout PNGs' aspect
+
+		function updateCutouts() {
+			if (!filler.naturalWidth || holes.some((hole) => !hole.naturalWidth)) return;
+			const box = filler.getBoundingClientRect();
+			const rects = holes.map((hole) => {
+				const r = hole.getBoundingClientRect();
+				return { x: r.left - box.left, y: r.top - box.top, w: r.width, h: r.height };
+			});
+
+			// Full layer at the bottom, each shape XORed out of it
+			const images = [...holes.map((hole) => `url("${hole.getAttribute("src")}")`), "linear-gradient(#000 0 0)"];
+			const positions = [...rects.map((r) => `${r.x}px ${r.y}px`), "0 0"];
+			const sizes = [...rects.map((r) => `${r.w}px ${r.h}px`), "100% 100%"];
+			for (const prefix of ["mask", "webkitMask"]) {
+				filler.style[`${prefix}Image`] = images.join(", ");
+				filler.style[`${prefix}Position`] = positions.join(", ");
+				filler.style[`${prefix}Size`] = sizes.join(", ");
+				filler.style[`${prefix}Repeat`] = "no-repeat";
+			}
+			filler.style.maskComposite = "exclude";
+			filler.style.webkitMaskComposite = "xor";
+
+			// Map stage px to filler image px (object-fit: cover, centered)
+			const scale = Math.max(box.width / filler.naturalWidth, box.height / filler.naturalHeight);
+			const offsetX = (box.width - filler.naturalWidth * scale) / 2;
+			const offsetY = (box.height - filler.naturalHeight * scale) / 2;
+
+			holes.forEach((hole, i) => {
+				const src = hole.getAttribute("src");
+				const piece = pieces.find((p) => p.dataset.shape === src);
+				if (!piece) return;
+				const r = rects[i];
+				const canvas = document.createElement("canvas");
+				canvas.width = PIECE_SIZE;
+				canvas.height = Math.round((PIECE_SIZE * hole.naturalHeight) / hole.naturalWidth);
+				const ctx = canvas.getContext("2d");
+				ctx.drawImage(
+					filler,
+					(r.x - offsetX) / scale,
+					(r.y - offsetY) / scale,
+					r.w / scale,
+					r.h / scale,
+					0,
+					0,
+					canvas.width,
+					canvas.height,
+				);
+				ctx.globalCompositeOperation = "destination-in";
+				ctx.drawImage(hole, 0, 0, canvas.width, canvas.height);
+				try {
+					piece.src = canvas.toDataURL();
+				} catch {
+					// Canvas is tainted when opened from file://; keep the plain cutout
+				}
+			});
+		}
+
+		new ResizeObserver(() => {
+			drawSquircle();
+			updateCutouts();
+		}).observe(stage);
+
+		// Step the waves along in small hops (~12fps), like hand-drawn frames
+		const WAVE_STEP = 0.004; // fraction of the outline per hop
+		const WAVE_FRAME_MS = 1000 / 12;
+		if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
+			let lastHop = 0;
+			const tick = (now) => {
+				if (now - lastHop >= WAVE_FRAME_MS) {
+					lastHop = now;
+					wavePhase = (wavePhase + WAVE_STEP) % 1;
+					drawSquircle();
+				}
+				requestAnimationFrame(tick);
+			};
+			requestAnimationFrame(tick);
+		}
+
+		Promise.all([filler, ...holes].map((img) => img.decode().catch(() => {}))).then(updateCutouts);
 		</script>
 	</body>
 </html>
